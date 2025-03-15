@@ -1,8 +1,9 @@
 extends CharacterBody2D
 
-
 @export var SPEED = 300.0
 @export var JUMP_VELOCITY = -400.0
+
+@onready var root = self.get_parent()
 
 
 func _physics_process(delta: float) -> void:
@@ -23,7 +24,3 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
 	move_and_slide()
-
-
-func _on_button_up() -> void:
-	pass # Replace with function body.
