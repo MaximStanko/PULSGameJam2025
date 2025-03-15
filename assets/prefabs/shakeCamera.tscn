@@ -23,9 +23,6 @@ func add_trauma(amount: float):
 	trauma = min(trauma + amount, 1.0)
 
 func _process(delta):
-	if Input.is_action_just_pressed(\"player_jump\"):
-		add_trauma(0.7)
-	
 	if trauma:
 		trauma = max(trauma - decay * delta, 0)
 		shake()

@@ -1,21 +1,31 @@
-[gd_scene load_steps=4 format=3 uid="uid://c6p4sekc3ik2k"]
+[gd_scene load_steps=8 format=3 uid="uid://c6p4sekc3ik2k"]
+
+[ext_resource type="Texture2D" uid="uid://clq1l3m3u13gj" path="res://assets/button/Wide_button_full.png" id="1_etubn"]
+[ext_resource type="Texture2D" uid="uid://bujfyydfb43ut" path="res://assets/button/Wide_button_hover.png" id="2_pejx7"]
+[ext_resource type="Texture2D" uid="uid://b1ormtyuu2iai" path="res://assets/button/Wide_button_press.png" id="3_xbhg4"]
 
 [sub_resource type="GDScript" id="GDScript_exdpr"]
 resource_name = "buttonControl"
 script/source = "extends StaticBody2D
 
-@onready var button: Button = get_child(0).get_child(0)
+@onready var button: TextureButton = get_child(0).get_child(0)
 
 @export var togglable: bool = false
-@export var text: String = \"robin stinkt\"
 
 func _ready():
 	button.toggle_mode = togglable
-	button.text = text
+
+func _on_area_entered(area):
+	if area.is_in_group(\"playerFeet\"):
+		Signal(button, \"mouse_entered\").emit()
+		print(\"Meow\")  
+
+func _on_area_exited(area):
+	pass # Replace with function body. 
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bl13t"]
-size = Vector2(168, 31.5)
+size = Vector2(279.95, 68)
 
 [sub_resource type="GDScript" id="GDScript_iyx0m"]
 resource_name = "obstacleButtonCollider"
@@ -34,6 +44,9 @@ func _on_button_pressed():
 	set_collider_state()
 "
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_etubn"]
+size = Vector2(268, 43)
+
 [node name="button" type="StaticBody2D"]
 collision_layer = 8
 script = SubResource("GDScript_exdpr")
@@ -46,25 +59,30 @@ offset_top = -449.0
 offset_right = -57.0
 offset_bottom = -409.0
 
-[node name="Button" type="Button" parent="Control"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = -4.825
-anchor_right = -4.825
-offset_left = 207.025
-offset_top = 433.0
-offset_right = 375.025
-offset_bottom = 464.0
-toggle_mode = true
-button_mask = 3
-text = "möm"
-metadata/_edit_use_anchors_ = true
+[node name="TextureButton" type="TextureButton" parent="Control"]
+layout_mode = 0
+offset_left = -42.0
+offset_top = 412.0
+offset_right = 28.0
+offset_bottom = 430.0
+scale = Vector2(4, 4)
+texture_normal = ExtResource("1_etubn")
+texture_pressed = ExtResource("3_xbhg4")
+texture_hover = ExtResource("2_pejx7")
 
 [node name="buttonCollider" type="CollisionShape2D" parent="."]
-position = Vector2(1.02499, -0.25)
+position = Vector2(1.02499, 2)
 shape = SubResource("RectangleShape2D_bl13t")
 script = SubResource("GDScript_iyx0m")
 
-[connection signal="button_down" from="Control/Button" to="buttonCollider" method="_on_button_down"]
-[connection signal="button_up" from="Control/Button" to="buttonCollider" method="_on_button_up"]
-[connection signal="pressed" from="Control/Button" to="buttonCollider" method="_on_button_pressed"]
+[node name="Area2D" type="Area2D" parent="." groups=["buttonPressureArea"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -19.5)
+shape = SubResource("RectangleShape2D_etubn")
+
+[connection signal="button_down" from="Control/TextureButton" to="buttonCollider" method="_on_button_down"]
+[connection signal="button_up" from="Control/TextureButton" to="buttonCollider" method="_on_button_up"]
+[connection signal="pressed" from="Control/TextureButton" to="buttonCollider" method="_on_button_pressed"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_exited"]

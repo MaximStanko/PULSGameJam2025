@@ -1,34 +1,39 @@
-[gd_scene load_steps=6 format=3 uid="uid://bwukx8x4w1xpn"]
+[gd_scene load_steps=8 format=3 uid="uid://bwukx8x4w1xpn"]
 
+[ext_resource type="Texture2D" uid="uid://d15rqxn8s7x1u" path="res://assets/background/Background.png" id="1_at5dv"]
 [ext_resource type="PackedScene" uid="uid://cdsloxmlt0uf2" path="res://assets/prefabs/player.tscn" id="1_bl13t"]
 [ext_resource type="PackedScene" uid="uid://c6p4sekc3ik2k" path="res://assets/prefabs/buttonObstacle.tscn" id="1_iyx0m"]
 [ext_resource type="PackedScene" uid="uid://cfahc5105flwf" path="res://assets/prefabs/ground.tscn" id="3_iyx0m"]
 [ext_resource type="PackedScene" uid="uid://bexhrk031q7a5" path="res://assets/prefabs/sliderObstacle.tscn" id="4_74lek"]
-[ext_resource type="Script" uid="uid://bja8vqmgokv8u" path="res://scenes/rich_text_label.gd" id="5_j5jx5"]
+[ext_resource type="Script" uid="uid://bja8vqmgokv8u" path="res://scenes/rich_text_label.gd" id="4_lpvoh"]
 [ext_resource type="PackedScene" uid="uid://b8aby1eqxx225" path="res://assets/prefabs/shakeCamera.tscn" id="5_j5jx5"]
 
 [node name="root" type="Node2D"]
+position = Vector2(383, 216)
+
+[node name="background" type="TextureRect" parent="."]
+offset_left = -398.0
+offset_top = -229.0
+offset_right = 82.0
+offset_bottom = 41.0
+scale = Vector2(4.05, 4.05)
+texture = ExtResource("1_at5dv")
+metadata/_edit_use_anchors_ = true
 
 [node name="ground" parent="." instance=ExtResource("3_iyx0m")]
-position = Vector2(103, 441)
-
-[node name="ground2" parent="." instance=ExtResource("3_iyx0m")]
-position = Vector2(300, 513)
-
-[node name="ground4" parent="." instance=ExtResource("3_iyx0m")]
-position = Vector2(680, 513)
-
-[node name="ground3" parent="." instance=ExtResource("3_iyx0m")]
-position = Vector2(489, 513)
+visible = false
+position = Vector2(-200, 810)
+scale = Vector2(8.33, 8.33)
 
 [node name="button" parent="." instance=ExtResource("1_iyx0m")]
-position = Vector2(297, 441)
+position = Vector2(429, 655)
+togglable = true
 
 [node name="hSlider" parent="." instance=ExtResource("4_74lek")]
-position = Vector2(489, 440)
+position = Vector2(710, 503)
 
 [node name="vSlider" parent="." instance=ExtResource("4_74lek")]
-position = Vector2(639, 410)
+position = Vector2(582, 583)
 rotation = -1.5708
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
@@ -38,10 +43,12 @@ offset_right = 486.0
 offset_bottom = 307.0
 fit_content = true
 scroll_active = false
-script = ExtResource("5_j5jx5")
+script = ExtResource("4_lpvoh")
+metadata/_edit_use_anchors_ = true
 
 [node name="player" parent="." instance=ExtResource("1_bl13t")]
-position = Vector2(455, 267)
+position = Vector2(431, 322)
+scale = Vector2(4, 4)
 
 [node name="camera" parent="." instance=ExtResource("5_j5jx5")]
 position = Vector2(576, 324)

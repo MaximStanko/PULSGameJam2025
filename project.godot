@@ -15,10 +15,21 @@ run/main_scene="uid://bwukx8x4w1xpn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://assets/images/icon.svg"
 
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/stretch/mode="viewport"
+
 [editor]
 
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
+
+[global_group]
+
+buttonPressureArea=""
+playerFeet=""
 
 [input]
 
@@ -64,3 +75,7 @@ player_down={
 2d_physics/layer_2="Ground"
 2d_physics/layer_3="Grabber"
 2d_physics/layer_4="Obstacle"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0

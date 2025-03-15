@@ -5,6 +5,7 @@ extends CharacterBody2D
 
 @onready var root = self.get_parent()
 
+@onready var animated_sprite = $AnimatedSprite2D
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -23,4 +24,18 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
+	if direction > 0:
+		animated_sprite.flip_h = false
+	elif direction < 0: 
+		animated_sprite.flip_h = true
+		
+	if is_on_floor():
+		if direction == 0:
+			animated_sprite.play("idle")
+		else: 
+			animated_sprite.play("walk")
+	else: 
+		animated_sprite.play("jump")
+		
+	
 	move_and_slide()
