@@ -9,6 +9,8 @@ resource_name = "buttonControl"
 script/source = "extends StaticBody2D
 
 @onready var button: TextureButton = get_child(0).get_child(0)
+@onready var buttonNormal: Texture2D = button.get_texture_normal()
+@onready var buttonHover: Texture2D = button.get_texture_hover()
 
 @export var togglable: bool = false
 
@@ -17,11 +19,11 @@ func _ready():
 
 func _on_area_entered(area):
 	if area.is_in_group(\"playerFeet\"):
-		Signal(button, \"mouse_entered\").emit()
-		print(\"Meow\")  
+		button.set_texture_normal(buttonHover) 
 
 func _on_area_exited(area):
-	pass # Replace with function body. 
+	if area.is_in_group(\"playerFeet\"):
+		button.set_texture_normal(buttonNormal) 
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bl13t"]
@@ -66,6 +68,7 @@ offset_top = 412.0
 offset_right = 28.0
 offset_bottom = 430.0
 scale = Vector2(4, 4)
+action_mode = 0
 texture_normal = ExtResource("1_etubn")
 texture_pressed = ExtResource("3_xbhg4")
 texture_hover = ExtResource("2_pejx7")
