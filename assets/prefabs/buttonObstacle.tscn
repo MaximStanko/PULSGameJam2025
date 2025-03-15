@@ -1,4 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://c6p4sekc3ik2k"]
+[gd_scene load_steps=4 format=3 uid="uid://c6p4sekc3ik2k"]
+
+[sub_resource type="GDScript" id="GDScript_exdpr"]
+resource_name = "buttonControl"
+script/source = "extends StaticBody2D
+
+@onready var button: Button = get_child(0).get_child(0)
+
+@export var togglable: bool = false
+@export var text: String = \"robin stinkt\"
+
+func _ready():
+	button.toggle_mode = togglable
+	button.text = text
+"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bl13t"]
 size = Vector2(168, 31.5)
@@ -7,14 +21,22 @@ size = Vector2(168, 31.5)
 resource_name = "obstacleButtonCollider"
 script/source = "extends CollisionShape2D
 
-func _on_button_down() -> void:
-	self.disabled = true
+func set_collider_state():
+	self.disabled = get_parent().get_child(0).get_child(0).button_pressed
 
-func _on_button_up() -> void:
-	self.disabled = false
+func _on_button_down():
+	set_collider_state()
+
+func _on_button_up():
+	set_collider_state()
+
+func _on_button_pressed():
+	set_collider_state()
 "
 
 [node name="button" type="StaticBody2D"]
+collision_layer = 8
+script = SubResource("GDScript_exdpr")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -33,14 +55,16 @@ offset_left = 207.025
 offset_top = 433.0
 offset_right = 375.025
 offset_bottom = 464.0
+toggle_mode = true
 button_mask = 3
-text = "hallo"
+text = "möm"
 metadata/_edit_use_anchors_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="buttonCollider" type="CollisionShape2D" parent="."]
 position = Vector2(1.02499, -0.25)
 shape = SubResource("RectangleShape2D_bl13t")
 script = SubResource("GDScript_iyx0m")
 
-[connection signal="button_down" from="Control/Button" to="CollisionShape2D" method="_on_button_down"]
-[connection signal="button_up" from="Control/Button" to="CollisionShape2D" method="_on_button_up"]
+[connection signal="button_down" from="Control/Button" to="buttonCollider" method="_on_button_down"]
+[connection signal="button_up" from="Control/Button" to="buttonCollider" method="_on_button_up"]
+[connection signal="pressed" from="Control/Button" to="buttonCollider" method="_on_button_pressed"]

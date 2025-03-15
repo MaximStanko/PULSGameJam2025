@@ -1,0 +1,123 @@
+[gd_scene load_steps=7 format=3 uid="uid://bexhrk031q7a5"]
+
+[sub_resource type="GDScript" id="GDScript_1bw8s"]
+resource_name = "sliderControl"
+script/source = "extends AnimatableBody2D
+
+@onready var slider_collider: CollisionShape2D = get_child(1)
+
+@export var fills_up: bool = false
+
+func _ready():
+	slider_collider.fills_up = fills_up
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bl13t"]
+size = Vector2(12, 8)
+
+[sub_resource type="GDScript" id="GDScript_iyx0m"]
+resource_name = "obstacleButtonCollider"
+script/source = "extends CollisionShape2D
+
+@onready var start_position: Vector2 = self.position
+@onready var slider_length: float = get_child(0).get_child(0).shape.extents.x
+@onready var grabber_length: float = self.shape.extents.x
+
+@export var fills_up: bool = true
+
+func calculate_grabber_x_offset(slider_value):
+	return (slider_length - grabber_length) * slider_value * 2
+
+func calculate_grabber_position(slider_value):
+	return Vector2(calculate_grabber_x_offset(slider_value)
+			+ start_position.x, start_position.y)
+
+func _on_slider_value_changed(value):
+	if fills_up:
+		var new_rectangle = RectangleShape2D.new()
+		new_rectangle.size = Vector2(calculate_grabber_x_offset(value)
+				+ grabber_length, self.shape.extents.y)
+		self.set_shape(new_rectangle)
+		self.position = Vector2(start_position.x + new_rectangle.size.x / 2, start_position.y)
+	else:
+		self.position = calculate_grabber_position(value)
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1bw8s"]
+size = Vector2(163, 14)
+
+[sub_resource type="GDScript" id="GDScript_uechv"]
+resource_name = "grabberControl"
+script/source = "extends RigidBody2D
+
+@onready var start_position: Vector2 = self.position
+@onready var slider_length: float = get_parent().get_child(1).get_child(0).get_child(0).shape.extents.x * 2
+@onready var grabber_length: float = self.get_child(0).shape.extents.x * 2
+@onready var slider_value: float = get_parent().get_child(0).get_child(0).value
+
+@export var max_velocity: float = 800
+@export var min_velocity: float = 1
+
+func calculate_grabber_x_position():
+	return clamp((slider_length - grabber_length) * slider_value, 0, slider_length) + start_position.x
+
+func calculate_x_velocity(desired_x: float):
+	return clamp((desired_x - self.position.x) ** 3, -max_velocity, max_velocity)
+
+func _on_slider_value_changed(value: float):
+	slider_value = value
+
+func _physics_process(delta: float):
+	var new_velocity = calculate_x_velocity(calculate_grabber_x_position())
+	set_axis_velocity(Vector2(new_velocity, 0))
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uechv"]
+size = Vector2(14, 14)
+
+[node name="collidableSlider" type="AnimatableBody2D"]
+collision_layer = 8
+script = SubResource("GDScript_1bw8s")
+
+[node name="uiControl" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -63.0
+offset_top = -8.0
+offset_right = -63.0
+offset_bottom = -8.0
+
+[node name="hSlider" type="HSlider" parent="uiControl"]
+layout_mode = 0
+offset_left = -18.0
+offset_right = 146.0
+offset_bottom = 16.0
+max_value = 1.0
+step = 0.01
+
+[node name="sliderCollider" type="CollisionShape2D" parent="." groups=["StickyCollider"]]
+position = Vector2(-74, 0)
+shape = SubResource("RectangleShape2D_bl13t")
+script = SubResource("GDScript_iyx0m")
+
+[node name="sliderArea" type="Area2D" parent="sliderCollider"]
+
+[node name="sliderShape" type="CollisionShape2D" parent="sliderCollider/sliderArea"]
+position = Vector2(75.5, 0)
+shape = SubResource("RectangleShape2D_1bw8s")
+disabled = true
+
+[node name="grabberBody" type="RigidBody2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+mass = 1000.0
+gravity_scale = 0.0
+lock_rotation = true
+script = SubResource("GDScript_uechv")
+
+[node name="grabberShape" type="CollisionShape2D" parent="grabberBody"]
+position = Vector2(-73, 0)
+shape = SubResource("RectangleShape2D_uechv")
+
+[connection signal="value_changed" from="uiControl/hSlider" to="sliderCollider" method="_on_slider_value_changed"]
+[connection signal="value_changed" from="uiControl/hSlider" to="grabberBody" method="_on_slider_value_changed"]

@@ -1,15 +1,56 @@
-[gd_scene load_steps=6 format=3 uid="uid://bwukx8x4w1xpn"]
+[gd_scene load_steps=7 format=3 uid="uid://bwukx8x4w1xpn"]
 
 [ext_resource type="PackedScene" uid="uid://cdsloxmlt0uf2" path="res://assets/prefabs/player.tscn" id="1_bl13t"]
 [ext_resource type="PackedScene" uid="uid://c6p4sekc3ik2k" path="res://assets/prefabs/buttonObstacle.tscn" id="1_iyx0m"]
 [ext_resource type="PackedScene" uid="uid://cfahc5105flwf" path="res://assets/prefabs/ground.tscn" id="3_iyx0m"]
-[ext_resource type="PackedScene" uid="uid://bexhrk031q7a5" path="res://assets/prefabs/horizontalSliderObstacle.tscn" id="4_74lek"]
-[ext_resource type="PackedScene" uid="uid://b4td75yw32yb4" path="res://assets/prefabs/verticalSliderObstacle.tscn" id="5_j5jx5"]
+[ext_resource type="PackedScene" uid="uid://bexhrk031q7a5" path="res://assets/prefabs/sliderObstacle.tscn" id="4_74lek"]
+
+[sub_resource type="GDScript" id="GDScript_74lek"]
+resource_name = "cameraControl"
+script/source = "extends Camera2D
+
+@export var decay: float = 0.999 #How quickly shaking will stop [0,1].
+@export var max_offset: Vector2 = Vector2(200,200) #Maximum displacement in pixels.
+@export var max_roll: float = 0.2 #Maximum rotation in radians (use sparingly).
+@export var violence_factor: float = 2.0 #How violent the shake is [1,3]
+@export var noise: FastNoiseLite #The source of random values.
+
+var noise_y = 0 #Value used to move through the noise
+
+var trauma := 0.0 #Current shake strength
+var trauma_pwr := 3 #Trauma exponent. Use [2,3]
+
+func _ready():
+	randomize()
+	noise.seed = randi()
+
+func add_trauma(amount: float):
+	trauma = min(trauma + amount, 1.0)
+
+func _process(delta):
+	if Input.is_action_just_pressed(\"player_jump\"):
+		add_trauma(0.7)
+	
+	if trauma:
+		trauma = max(trauma - decay * delta, 0)
+		shake()
+	#optional
+	elif offset.x != 0 or offset.y != 0 or rotation != 0:
+		lerp(offset.x,0.0,1)
+		lerp(offset.y,0.0,1)
+		lerp(rotation,0.0,1)
+
+func shake(): 
+	var amt = pow(trauma, trauma_pwr)
+	noise_y += 5
+	rotation = max_roll * amt * noise.get_noise_2d(0, noise_y)
+	offset.x = max_offset.x * amt * noise.get_noise_2d(1000, noise_y)
+	offset.y = max_offset.y * amt * noise.get_noise_2d(2000, noise_y)
+"
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_74lek"]
 
 [node name="root" type="Node2D"]
-
-[node name="player" parent="." instance=ExtResource("1_bl13t")]
-position = Vector2(90, 263)
 
 [node name="ground" parent="." instance=ExtResource("3_iyx0m")]
 position = Vector2(103, 441)
@@ -17,14 +58,26 @@ position = Vector2(103, 441)
 [node name="ground2" parent="." instance=ExtResource("3_iyx0m")]
 position = Vector2(300, 513)
 
+[node name="ground4" parent="." instance=ExtResource("3_iyx0m")]
+position = Vector2(680, 513)
+
 [node name="ground3" parent="." instance=ExtResource("3_iyx0m")]
 position = Vector2(489, 513)
 
 [node name="button" parent="." instance=ExtResource("1_iyx0m")]
 position = Vector2(297, 441)
 
-[node name="button2" parent="." instance=ExtResource("4_74lek")]
+[node name="hSlider" parent="." instance=ExtResource("4_74lek")]
 position = Vector2(489, 440)
 
-[node name="AnimatableBody2D" parent="." instance=ExtResource("5_j5jx5")]
-position = Vector2(591, 404)
+[node name="vSlider" parent="." instance=ExtResource("4_74lek")]
+position = Vector2(639, 410)
+rotation = -1.5708
+
+[node name="player" parent="." instance=ExtResource("1_bl13t")]
+position = Vector2(455, 267)
+
+[node name="camera" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+script = SubResource("GDScript_74lek")
+noise = SubResource("FastNoiseLite_74lek")
