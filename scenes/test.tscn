@@ -5,17 +5,14 @@
 [ext_resource type="PackedScene" uid="uid://c6p4sekc3ik2k" path="res://assets/prefabs/buttonObstacle.tscn" id="1_iyx0m"]
 [ext_resource type="PackedScene" uid="uid://cfahc5105flwf" path="res://assets/prefabs/ground.tscn" id="3_iyx0m"]
 [ext_resource type="PackedScene" uid="uid://bexhrk031q7a5" path="res://assets/prefabs/sliderObstacle.tscn" id="4_74lek"]
-[ext_resource type="Script" path="res://scripts/textAnimation.gd" id="4_lpvoh"]
+[ext_resource type="Script" uid="uid://bja8vqmgokv8u" path="res://scripts/rich_text_label.gd" id="5_at5dv"]
 [ext_resource type="PackedScene" uid="uid://b8aby1eqxx225" path="res://assets/prefabs/shakeCamera.tscn" id="5_j5jx5"]
 
 [node name="root" type="Node2D"]
-position = Vector2(383, 216)
 
 [node name="background" type="TextureRect" parent="."]
-offset_left = -398.0
-offset_top = -229.0
-offset_right = 82.0
-offset_bottom = 41.0
+offset_right = 480.0
+offset_bottom = 270.0
 scale = Vector2(4.05, 4.05)
 texture = ExtResource("1_at5dv")
 metadata/_edit_use_anchors_ = true
@@ -26,29 +23,29 @@ position = Vector2(-200, 810)
 scale = Vector2(8.33, 8.33)
 
 [node name="button" parent="." instance=ExtResource("1_iyx0m")]
-position = Vector2(429, 655)
+position = Vector2(827, 884)
 togglable = true
 
 [node name="hSlider" parent="." instance=ExtResource("4_74lek")]
-position = Vector2(710, 503)
+position = Vector2(1108, 732)
 
 [node name="vSlider" parent="." instance=ExtResource("4_74lek")]
-position = Vector2(582, 583)
+position = Vector2(980, 812)
 rotation = -1.5708
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-offset_left = 4.0
-offset_top = 270.0
-offset_right = 486.0
-offset_bottom = 307.0
-fit_content = true
-scroll_active = false
-script = ExtResource("4_lpvoh")
-metadata/_edit_use_anchors_ = true
-
 [node name="player" parent="." instance=ExtResource("1_bl13t")]
-position = Vector2(431, 322)
+position = Vector2(829, 551)
 scale = Vector2(4, 4)
 
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 402.0
+offset_top = 499.0
+offset_right = 884.0
+offset_bottom = 536.0
+fit_content = true
+scroll_active = false
+script = ExtResource("5_at5dv")
+metadata/_edit_use_anchors_ = true
+
 [node name="camera" parent="." instance=ExtResource("5_j5jx5")]
-position = Vector2(576, 324)
+position = Vector2(974, 553)
