@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cfahc5105flwf" path="res://assets/prefabs/ground.tscn" id="3_iyx0m"]
 [ext_resource type="PackedScene" uid="uid://bexhrk031q7a5" path="res://assets/prefabs/sliderObstacle.tscn" id="4_74lek"]
 [ext_resource type="Script" uid="uid://bja8vqmgokv8u" path="res://scenes/rich_text_label.gd" id="5_j5jx5"]
+[ext_resource type="PackedScene" uid="uid://b8aby1eqxx225" path="res://assets/prefabs/shakeCamera.tscn" id="5_j5jx5"]
 
 [node name="root" type="Node2D"]
 
@@ -26,9 +27,6 @@ position = Vector2(297, 441)
 [node name="hSlider" parent="." instance=ExtResource("4_74lek")]
 position = Vector2(489, 440)
 
-[node name="player" parent="." instance=ExtResource("1_bl13t")]
-position = Vector2(455, 267)
-
 [node name="vSlider" parent="." instance=ExtResource("4_74lek")]
 position = Vector2(639, 410)
 rotation = -1.5708
@@ -41,3 +39,9 @@ offset_bottom = 307.0
 fit_content = true
 scroll_active = false
 script = ExtResource("5_j5jx5")
+
+[node name="player" parent="." instance=ExtResource("1_bl13t")]
+position = Vector2(455, 267)
+
+[node name="camera" parent="." instance=ExtResource("5_j5jx5")]
+position = Vector2(576, 324)
