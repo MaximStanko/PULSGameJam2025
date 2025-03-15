@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://c6p4sekc3ik2k"]
 
-[ext_resource type="Texture2D" uid="uid://clq1l3m3u13gj" path="res://assets/button/Wide_button_full.png" id="1_etubn"]
-[ext_resource type="Texture2D" uid="uid://bujfyydfb43ut" path="res://assets/button/Wide_button_hover.png" id="2_pejx7"]
-[ext_resource type="Texture2D" uid="uid://b1ormtyuu2iai" path="res://assets/button/Wide_button_press.png" id="3_xbhg4"]
+[ext_resource type="Texture2D" uid="uid://clq1l3m3u13gj" path="res://assets/images/button/Wide_button_full.png" id="1_etubn"]
+[ext_resource type="Texture2D" uid="uid://bujfyydfb43ut" path="res://assets/images/button/Wide_button_hover.png" id="2_pejx7"]
+[ext_resource type="Texture2D" uid="uid://b1ormtyuu2iai" path="res://assets/images/button/Wide_button_press.png" id="3_xbhg4"]
 
 [sub_resource type="GDScript" id="GDScript_exdpr"]
 resource_name = "buttonControl"

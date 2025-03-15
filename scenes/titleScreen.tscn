@@ -1,0 +1,221 @@
+[gd_scene load_steps=15 format=3 uid="uid://cb0nru3otrsla"]
+
+[ext_resource type="PackedScene" uid="uid://b8aby1eqxx225" path="res://assets/prefabs/shakeCamera.tscn" id="1_atem8"]
+[ext_resource type="Texture2D" uid="uid://cpuq4a20aqkag" path="res://assets/images/background/Title_background.png" id="2_iul6a"]
+[ext_resource type="Texture2D" uid="uid://c8hac7ypxwu78" path="res://assets/images/titleLetters/R.png" id="3_imref"]
+[ext_resource type="PackedScene" uid="uid://cfahc5105flwf" path="res://assets/prefabs/ground.tscn" id="3_iul6a"]
+[ext_resource type="PackedScene" uid="uid://cdsloxmlt0uf2" path="res://assets/prefabs/player.tscn" id="5_imref"]
+[ext_resource type="Texture2D" uid="uid://dhpgu6pjrn2t8" path="res://assets/images/titleLetters/M.png" id="6_o5wcp"]
+[ext_resource type="Texture2D" uid="uid://t1d8x30efker" path="res://assets/images/titleLetters/A.png" id="7_3s32a"]
+[ext_resource type="Texture2D" uid="uid://dor7cvv8f7kjf" path="res://assets/images/titleLetters/'.png" id="8_btmd0"]
+[ext_resource type="Texture2D" uid="uid://cq0jqrue2v2da" path="res://assets/images/titleLetters/s.png" id="9_a2ocw"]
+[ext_resource type="Texture2D" uid="uid://bxghg4vfnkdso" path="res://assets/images/titleLetters/U.png" id="10_rwl6j"]
+[ext_resource type="Texture2D" uid="uid://c2743dib4yssd" path="res://assets/images/titleLetters/kleiner-R.png" id="12_lihm4"]
+[ext_resource type="Texture2D" uid="uid://226754xy3jbl" path="res://assets/images/titleLetters/kleiner-S.png" id="13_lihm4"]
+[ext_resource type="Texture2D" uid="uid://crw43756mdkc1" path="res://assets/images/titleLetters/I.png" id="14_55nrq"]
+
+[sub_resource type="GDScript" id="GDScript_imref"]
+resource_name = "titleScreenControl"
+script/source = "extends Node2D
+
+var letters: Array
+var camera: Camera2D
+
+var letter_index: int = 0
+
+var impulse: float = 250
+var torque: float = 300000
+
+func _ready():
+	for child in get_children():
+		match child.get_name():
+			\"camera\": camera = child
+			var child_name:
+				if child_name.contains(\"collidableLetter\"):
+					letters.append(child)
+
+func loosen_letter():
+	if letter_index >= letters.size(): return
+	var letter = letters[letter_index]
+	letter.freeze = false
+	letter.apply_impulse(Vector2.UP.rotated(randf_range(-PI/4, PI/4)) * impulse)
+	letter.apply_torque((randi_range(0,1) * 2 - 1) * randi_range(torque/2, torque))
+	letter.set_collision_layer_value(4, true)
+	letter.set_collision_mask_value(4, true)
+	camera.add_trauma(lerp(0.8, 1.0, letter_index / (letters.size() - 1)) ** 2)
+	letter_index += 1
+	if letter_index == 4: loosen_letter()
+
+func _process(delta: float):
+	if Input.is_action_just_pressed(\"player_jump\"):
+		loosen_letter()
+"
+
+[node name="TitleScreen" type="Node2D"]
+script = SubResource("GDScript_imref")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+layout_mode = 0
+offset_right = 1600.0
+offset_bottom = 900.0
+texture = ExtResource("2_iul6a")
+
+[node name="ground" parent="." instance=ExtResource("3_iul6a")]
+position = Vector2(510, 849)
+scale = Vector2(2.84, 6.12)
+
+[node name="player" parent="." instance=ExtResource("5_imref")]
+position = Vector2(1116, 387)
+scale = Vector2(3.4, 3.4)
+
+[node name="camera" parent="." instance=ExtResource("1_atem8")]
+position = Vector2(801, 452)
+
+[node name="collidableLetterSmallI" type="RigidBody2D" parent="."]
+position = Vector2(1007, 608)
+collision_layer = 0
+collision_mask = 3
+freeze = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collidableLetterSmallI"]
+position = Vector2(-4.99998, -4.00001)
+scale = Vector2(3.59969, 3.39654)
+polygon = PackedVector2Array(5.00043, 9.71577, -1.38901, 9.71577, -1.38901, -5.88835, 5.00043, -5.88835)
+
+[node name="Sprite2D" type="Sprite2D" parent="collidableLetterSmallI"]
+position = Vector2(1, 2)
+scale = Vector2(3.333, 3.333)
+texture = ExtResource("14_55nrq")
+
+[node name="collidableLetterM" type="RigidBody2D" parent="."]
+position = Vector2(897, 507)
+collision_layer = 0
+collision_mask = 3
+freeze = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collidableLetterM"]
+position = Vector2(-4.99998, -4.00001)
+scale = Vector2(3.59969, 3.39654)
+polygon = PackedVector2Array(14.4457, 13.8376, -13.6123, 13.8376, -13.6123, -11.4823, -6.13382, -11.4823, 0.833405, 2.64977, 7.76837, -11.4823, 14.4457, -11.4823)
+
+[node name="Sprite2D" type="Sprite2D" parent="collidableLetterM"]
+position = Vector2(-4, 0)
+scale = Vector2(3.333, 3.333)
+texture = ExtResource("6_o5wcp")
+
+[node name="collidableLetterSmallS" type="RigidBody2D" parent="."]
+position = Vector2(907, 608)
+collision_layer = 0
+collision_mask = 3
+freeze = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collidableLetterSmallS"]
+position = Vector2(-4.99998, -4.00001)
+scale = Vector2(3.59969, 3.39654)
+polygon = PackedVector2Array(4.16702, 9.71577, -3.33362, 9.71577, -3.33362, -5.88835, 5.83383, -5.88835, 6.66724, 2.94418, 6.94504, 6.77161)
+
+[node name="Sprite2D" type="Sprite2D" parent="collidableLetterSmallS"]
+position = Vector2(1, 2)
+scale = Vector2(3.333, 3.333)
+texture = ExtResource("13_lihm4")
+
+[node name="collidableLetter\'" type="RigidBody2D" parent="."]
+position = Vector2(1051, 471)
+collision_layer = 0
+collision_mask = 3
+freeze = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collidableLetter\'"]
+position = Vector2(-4.99998, -4.00001)
+scale = Vector2(3.59969, 3.39654)
+polygon = PackedVector2Array(3.61145, -1.17766, 0.277802, 4.71069, 0.277802, -1.17766)
+
+[node name="Sprite2D" type="Sprite2D" parent="collidableLetter\'"]
+position = Vector2(1, 2)
+scale = Vector2(3.333, 3.333)
+texture = ExtResource("8_btmd0")
+
+[node name="collidableLetterS" type="RigidBody2D" parent="."]
+position = Vector2(1081, 519)
+collision_layer = 0
+collision_mask = 3
+freeze = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collidableLetterS"]
+position = Vector2(-4.99998, -4.00001)
+scale = Vector2(3.59969, 3.39654)
+polygon = PackedVector2Array(3.88922, 10.599, -3.33362, 10.599, -3.88922, -4.12186, -1.11121, -7.06602, 6.66724, -7.06602, 6.94504, 0.588837, 8.05624, 6.77161)
+
+[node name="Sprite2D" type="Sprite2D" parent="collidableLetterS"]
+position = Vector2(1, 2)
+scale = Vector2(3.333, 3.333)
+texture = ExtResource("9_a2ocw")
+
+[node name="collidableLetterSmallU" type="RigidBody2D" parent="."]
+position = Vector2(789, 608)
+collision_layer = 0
+collision_mask = 3
+freeze = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collidableLetterSmallU"]
+position = Vector2(-4.99998, -4.00001)
+scale = Vector2(3.59969, 3.39654)
+polygon = PackedVector2Array(7.22285, 9.42136, -3.88922, 9.42136, -3.88922, -5.88835, 7.22285, -5.88835)
+
+[node name="Sprite2D" type="Sprite2D" parent="collidableLetterSmallU"]
+position = Vector2(1, 2)
+scale = Vector2(3.333, 3.333)
+texture = ExtResource("10_rwl6j")
+
+[node name="collidableLetterA" type="RigidBody2D" parent="."]
+position = Vector2(1007, 507)
+collision_layer = 0
+collision_mask = 3
+freeze = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collidableLetterA"]
+position = Vector2(-4.99998, -4.00001)
+scale = Vector2(3.59969, 3.39654)
+polygon = PackedVector2Array(13.3345, 13.8376, -10.5565, 13.8376, 1.38901, -11.4823)
+
+[node name="Sprite2D" type="Sprite2D" parent="collidableLetterA"]
+position = Vector2(1, 2)
+scale = Vector2(3.333, 3.333)
+texture = ExtResource("7_3s32a")
+
+[node name="collidableLetterSmallR" type="RigidBody2D" parent="."]
+position = Vector2(850, 608)
+collision_layer = 0
+collision_mask = 3
+freeze = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collidableLetterSmallR"]
+position = Vector2(-4.99998, -4.00001)
+scale = Vector2(3.59969, 3.39654)
+polygon = PackedVector2Array(7.77846, 9.42136, -5.00044, 9.42136, -5.00044, -5.88835, 7.77846, -5.88835)
+
+[node name="Sprite2D" type="Sprite2D" parent="collidableLetterSmallR"]
+position = Vector2(1, 2)
+scale = Vector2(3.333, 3.333)
+texture = ExtResource("12_lihm4")
+
+[node name="collidableLetterR" type="RigidBody2D" parent="."]
+position = Vector2(780, 507)
+collision_layer = 0
+collision_mask = 3
+freeze = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collidableLetterR"]
+position = Vector2(4.23793, -4.56736)
+scale = Vector2(3.59969, 3.39654)
+polygon = PackedVector2Array(11.6016, 14.0047, -12.5672, 14.0047, -12.5672, -11.3152, 3.26752, -11.3152, 8.26796, -5.13248, 2.71191, 2.52238)
+
+[node name="Sprite2D" type="Sprite2D" parent="collidableLetterR"]
+scale = Vector2(3.333, 3.333)
+texture = ExtResource("3_imref")

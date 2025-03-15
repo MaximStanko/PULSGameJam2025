@@ -1,0 +1,72 @@
+[gd_scene load_steps=8 format=3 uid="uid://cb0nru3otrsla"]
+
+[ext_resource type="PackedScene" uid="uid://b8aby1eqxx225" path="res://assets/prefabs/shakeCamera.tscn" id="1_atem8"]
+[ext_resource type="Texture2D" uid="uid://cpuq4a20aqkag" path="res://assets/images/background/Title_background.png" id="2_iul6a"]
+[ext_resource type="PackedScene" uid="uid://cfahc5105flwf" path="res://assets/prefabs/ground.tscn" id="3_iul6a"]
+[ext_resource type="Texture2D" uid="uid://lv2ld1b86bnv" path="res://assets/images/icon.svg" id="4_uxtqq"]
+[ext_resource type="PackedScene" uid="uid://cdsloxmlt0uf2" path="res://assets/prefabs/player.tscn" id="5_imref"]
+
+[sub_resource type="GDScript" id="GDScript_imref"]
+resource_name = "titleScreenControl"
+script/source = "extends Node2D
+
+@onready var letter: RigidBody2D = get_child(2)
+@onready var camera: Camera2D = get_child(4)
+
+var impulse: float = 250
+var torque: float = 300000
+
+func loosen_letter():
+	letter.freeze = false
+	letter.apply_impulse(Vector2.UP.rotated(randf_range(-PI/4, PI/4)) * impulse)
+	letter.apply_torque((randi_range(0,1) * 2 - 1) * randi_range(torque/2, torque))
+	camera.add_trauma(0.8)
+
+func _process(delta: float):
+	if Input.is_action_just_pressed(\"player_jump\"):
+		loosen_letter()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_imref"]
+size = Vector2(79, 92)
+
+[node name="TitleScreen" type="Node2D"]
+script = SubResource("GDScript_imref")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+layout_mode = 0
+offset_right = 1600.0
+offset_bottom = 900.0
+texture = ExtResource("2_iul6a")
+
+[node name="ground" parent="." instance=ExtResource("3_iul6a")]
+position = Vector2(507, 852)
+scale = Vector2(2.84, 6.12)
+
+[node name="collidableLetter" type="RigidBody2D" parent="."]
+position = Vector2(774, 509)
+collision_layer = 8
+collision_mask = 15
+freeze = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="collidableLetter"]
+position = Vector2(2.5, -3)
+shape = SubResource("RectangleShape2D_imref")
+
+[node name="Sprite2D" type="Sprite2D" parent="collidableLetter"]
+position = Vector2(2.49998, -2.99999)
+scale = Vector2(0.617187, 0.71875)
+texture = ExtResource("4_uxtqq")
+
+[node name="player" parent="." instance=ExtResource("5_imref")]
+position = Vector2(773, 387)
+scale = Vector2(3.4, 3.4)
+
+[node name="camera" parent="." instance=ExtResource("1_atem8")]
+position = Vector2(801, 452)

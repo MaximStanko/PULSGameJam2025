@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bwukx8x4w1xpn"]
 
-[ext_resource type="Texture2D" uid="uid://d15rqxn8s7x1u" path="res://assets/background/Background.png" id="1_at5dv"]
+[ext_resource type="Texture2D" uid="uid://d15rqxn8s7x1u" path="res://assets/images/background/Background.png" id="1_at5dv"]
 [ext_resource type="PackedScene" uid="uid://cdsloxmlt0uf2" path="res://assets/prefabs/player.tscn" id="1_bl13t"]
 [ext_resource type="PackedScene" uid="uid://c6p4sekc3ik2k" path="res://assets/prefabs/buttonObstacle.tscn" id="1_iyx0m"]
 [ext_resource type="PackedScene" uid="uid://cfahc5105flwf" path="res://assets/prefabs/ground.tscn" id="3_iyx0m"]
@@ -13,28 +13,27 @@
 [node name="background" type="TextureRect" parent="."]
 offset_right = 480.0
 offset_bottom = 270.0
-scale = Vector2(4.05, 4.05)
+scale = Vector2(3.4, 3.4)
 texture = ExtResource("1_at5dv")
 metadata/_edit_use_anchors_ = true
 
 [node name="ground" parent="." instance=ExtResource("3_iyx0m")]
-visible = false
-position = Vector2(-200, 810)
+position = Vector2(780, 889)
 scale = Vector2(8.33, 8.33)
 
 [node name="button" parent="." instance=ExtResource("1_iyx0m")]
-position = Vector2(827, 884)
+position = Vector2(734, 673)
 togglable = true
 
 [node name="hSlider" parent="." instance=ExtResource("4_74lek")]
-position = Vector2(1108, 732)
+position = Vector2(1015, 521)
 
 [node name="vSlider" parent="." instance=ExtResource("4_74lek")]
-position = Vector2(980, 812)
+position = Vector2(887, 601)
 rotation = -1.5708
 
 [node name="player" parent="." instance=ExtResource("1_bl13t")]
-position = Vector2(829, 551)
+position = Vector2(736, 340)
 scale = Vector2(4, 4)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
@@ -48,4 +47,4 @@ script = ExtResource("5_at5dv")
 metadata/_edit_use_anchors_ = true
 
 [node name="camera" parent="." instance=ExtResource("5_j5jx5")]
-position = Vector2(974, 553)
+position = Vector2(800, 450)
