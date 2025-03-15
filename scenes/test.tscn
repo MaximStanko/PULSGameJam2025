@@ -1,10 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bwukx8x4w1xpn"]
+[gd_scene load_steps=7 format=3 uid="uid://bwukx8x4w1xpn"]
 
 [ext_resource type="PackedScene" uid="uid://cdsloxmlt0uf2" path="res://assets/prefabs/player.tscn" id="1_bl13t"]
 [ext_resource type="PackedScene" uid="uid://c6p4sekc3ik2k" path="res://assets/prefabs/buttonObstacle.tscn" id="1_iyx0m"]
 [ext_resource type="PackedScene" uid="uid://cfahc5105flwf" path="res://assets/prefabs/ground.tscn" id="3_iyx0m"]
 [ext_resource type="PackedScene" uid="uid://bexhrk031q7a5" path="res://assets/prefabs/sliderObstacle.tscn" id="4_74lek"]
-[ext_resource type="Script" uid="uid://bja8vqmgokv8u" path="res://scenes/rich_text_label.gd" id="5_j5jx5"]
+[ext_resource type="Script" uid="uid://bja8vqmgokv8u" path="res://scenes/rich_text_label.gd" id="4_lpvoh"]
 [ext_resource type="PackedScene" uid="uid://b8aby1eqxx225" path="res://assets/prefabs/shakeCamera.tscn" id="5_j5jx5"]
 
 [node name="root" type="Node2D"]
@@ -38,7 +38,7 @@ offset_right = 486.0
 offset_bottom = 307.0
 fit_content = true
 scroll_active = false
-script = ExtResource("5_j5jx5")
+script = ExtResource("4_lpvoh")
 
 [node name="player" parent="." instance=ExtResource("1_bl13t")]
 position = Vector2(455, 267)
