@@ -37,13 +37,15 @@ func _ready():
 func loosen_letter():
 	if letter_index >= letters.size(): return
 	var letter = letters[letter_index]
+	var step_value = float(letter_index) / float(letters.size() - 1)
 	letter.freeze = false
-	letter.apply_impulse(Vector2.UP.rotated(randf_range(-PI/4, PI/4)) * impulse)
-	letter.apply_torque((randi_range(0,1) * 2 - 1) * randi_range(torque/2, torque))
 	letter.set_collision_layer_value(4, true)
 	letter.set_collision_mask_value(4, true)
-	camera.add_trauma(lerp(0.8, 1.0, letter_index / (letters.size() - 1)) ** 2)
+	letter.apply_impulse(Vector2.UP.rotated(randf_range(-PI/4, PI/4)) * lerp(impulse/2, impulse, step_value))
+	letter.apply_torque((randi_range(0,1) * 2 - 1) * lerp(torque/2, torque, step_value))
+	camera.add_trauma(lerp(0.8, 1.0, step_value) ** 2)
 	letter_index += 1
+	print(step_value)
 	if letter_index == 4: loosen_letter()
 
 func _process(delta: float):
@@ -62,8 +64,10 @@ offset_bottom = 40.0
 
 [node name="TextureRect" type="TextureRect" parent="Control"]
 layout_mode = 0
-offset_right = 1600.0
-offset_bottom = 900.0
+offset_left = -130.0
+offset_top = -130.0
+offset_right = 1730.0
+offset_bottom = 1030.0
 texture = ExtResource("2_iul6a")
 
 [node name="ground" parent="." instance=ExtResource("3_iul6a")]
