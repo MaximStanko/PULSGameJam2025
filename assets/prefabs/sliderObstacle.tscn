@@ -9,7 +9,7 @@ script/source = "extends AnimatableBody2D
 @export var fills_up: bool = false
 
 func _ready():
-	slider_collider.is_filled = fills_up
+	slider_collider.fills_up = fills_up
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bl13t"]
