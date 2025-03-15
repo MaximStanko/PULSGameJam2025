@@ -1,3 +1,30 @@
-[gd_scene format=3 uid="uid://bwukx8x4w1xpn"]
+[gd_scene load_steps=6 format=3 uid="uid://bwukx8x4w1xpn"]
 
-[node name="Node2D" type="Node2D"]
+[ext_resource type="PackedScene" uid="uid://cdsloxmlt0uf2" path="res://assets/prefabs/player.tscn" id="1_bl13t"]
+[ext_resource type="PackedScene" uid="uid://c6p4sekc3ik2k" path="res://assets/prefabs/buttonObstacle.tscn" id="1_iyx0m"]
+[ext_resource type="PackedScene" uid="uid://cfahc5105flwf" path="res://assets/prefabs/ground.tscn" id="3_iyx0m"]
+[ext_resource type="PackedScene" uid="uid://bexhrk031q7a5" path="res://assets/prefabs/horizontalSliderObstacle.tscn" id="4_74lek"]
+[ext_resource type="PackedScene" uid="uid://b4td75yw32yb4" path="res://assets/prefabs/verticalSliderObstacle.tscn" id="5_j5jx5"]
+
+[node name="root" type="Node2D"]
+
+[node name="player" parent="." instance=ExtResource("1_bl13t")]
+position = Vector2(90, 263)
+
+[node name="ground" parent="." instance=ExtResource("3_iyx0m")]
+position = Vector2(103, 441)
+
+[node name="ground2" parent="." instance=ExtResource("3_iyx0m")]
+position = Vector2(300, 513)
+
+[node name="ground3" parent="." instance=ExtResource("3_iyx0m")]
+position = Vector2(489, 513)
+
+[node name="button" parent="." instance=ExtResource("1_iyx0m")]
+position = Vector2(297, 441)
+
+[node name="button2" parent="." instance=ExtResource("4_74lek")]
+position = Vector2(489, 440)
+
+[node name="AnimatableBody2D" parent="." instance=ExtResource("5_j5jx5")]
+position = Vector2(591, 404)
