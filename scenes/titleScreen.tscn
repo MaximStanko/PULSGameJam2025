@@ -1,0 +1,258 @@
+[gd_scene load_steps=20 format=3 uid="uid://cb0nru3otrsla"]
+
+[ext_resource type="PackedScene" uid="uid://b8aby1eqxx225" path="res://assets/prefabs/shakeCamera.tscn" id="1_atem8"]
+[ext_resource type="PackedScene" uid="uid://b60w3flc2qkh7" path="res://assets/prefabs/fadeInText.tscn" id="2_2cayt"]
+[ext_resource type="Texture2D" uid="uid://cpuq4a20aqkag" path="res://assets/images/background/Title_background.png" id="2_iul6a"]
+[ext_resource type="Texture2D" uid="uid://c8hac7ypxwu78" path="res://assets/images/titleLetters/R.png" id="3_imref"]
+[ext_resource type="PackedScene" uid="uid://cfahc5105flwf" path="res://assets/prefabs/ground.tscn" id="3_iul6a"]
+[ext_resource type="Texture2D" uid="uid://bwgn081q1vxqu" path="res://assets/images/button/start_button_pressed.png" id="5_2cayt"]
+[ext_resource type="Texture2D" uid="uid://by0kwbqnpl8rx" path="res://assets/images/button/start_button_full.png" id="5_i1ce6"]
+[ext_resource type="Texture2D" uid="uid://bo6a1ldnwnyy5" path="res://assets/images/button/start_button_hover.png" id="6_2cayt"]
+[ext_resource type="Texture2D" uid="uid://dhpgu6pjrn2t8" path="res://assets/images/titleLetters/M.png" id="6_o5wcp"]
+[ext_resource type="Texture2D" uid="uid://t1d8x30efker" path="res://assets/images/titleLetters/A.png" id="7_3s32a"]
+[ext_resource type="Texture2D" uid="uid://dor7cvv8f7kjf" path="res://assets/images/titleLetters/'.png" id="8_btmd0"]
+[ext_resource type="Texture2D" uid="uid://cq0jqrue2v2da" path="res://assets/images/titleLetters/s.png" id="9_a2ocw"]
+[ext_resource type="Texture2D" uid="uid://bxghg4vfnkdso" path="res://assets/images/titleLetters/U.png" id="10_rwl6j"]
+[ext_resource type="Texture2D" uid="uid://c2743dib4yssd" path="res://assets/images/titleLetters/kleiner-R.png" id="12_lihm4"]
+[ext_resource type="Texture2D" uid="uid://226754xy3jbl" path="res://assets/images/titleLetters/kleiner-S.png" id="13_lihm4"]
+[ext_resource type="Texture2D" uid="uid://crw43756mdkc1" path="res://assets/images/titleLetters/I.png" id="14_55nrq"]
+[ext_resource type="PackedScene" uid="uid://c6p4sekc3ik2k" path="res://assets/prefabs/buttonObstacle.tscn" id="14_q8rfg"]
+
+[sub_resource type="GDScript" id="GDScript_imref"]
+resource_name = "titleScreenControl"
+script/source = "extends Node2D
+
+var letters: Array
+var camera: Camera2D
+var playButtonBody: RigidBody2D
+var fadeInText: RichTextLabel
+
+var letter_index: int = 0
+var button_presses: int = 0
+
+const impulse: float = 250
+const torque: float = 80000
+const pushback_factor: float = 100
+
+var button_flew: bool = false
+
+func _ready():
+	for child in get_children():
+		match child.get_name():
+			\"camera\": camera = child
+			\"playButtonBody\": playButtonBody = child
+			\"Control\": fadeInText = child.get_child(1)
+			var child_name:
+				if child_name.contains(\"collidableLetter\"):
+					letters.append(child)
+
+func loosen_letter():
+	if letter_index >= letters.size():
+		if not button_flew:
+			fly_button_fly()
+			button_flew = true
+		return
+	var letter = letters[letter_index]
+	var step_value = float(letter_index) / float(letters.size() - 1)
+	letter.freeze = false
+	letter.set_collision_layer_value(4, true)
+	letter.set_collision_mask_value(4, true)
+	letter.apply_impulse(Vector2.UP.rotated((randi_range(0,1) * 2 - 1) * randf_range(PI * (0.5 - 0.1), PI * (0.5 - 0.4))) * lerp(impulse * 0.8, impulse, step_value))
+	letter.apply_torque((randi_range(0,1) * 2 - 1) * lerp(torque/2, torque, step_value))
+	camera.add_trauma(lerp(0.8, 1.0, step_value) ** 2)
+	letter_index += 1
+	if letter_index == 4: loosen_letter()
+
+func fly_button_fly():
+	playButtonBody.freeze = false
+	playButtonBody.apply_impulse(Vector2.UP.rotated(PI * 0.3) * 400)
+	playButtonBody.apply_torque(3000.0)
+	camera.add_trauma(1.0)
+	fadeInText.fade_text(\"halt dein maul\")
+
+func _on_play_button_was_pressed():
+	button_presses += 1
+	match button_presses:
+		1: fadeInText.fade_text(\"u stupid\")
+	if button_presses == 5 or button_presses >= 7:
+		loosen_letter()
+	else:
+		camera.add_trauma(0.5)
+"
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_2cayt"]
+
+[node name="TitleScreen" type="Node2D"]
+script = SubResource("GDScript_imref")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+layout_mode = 0
+offset_left = -39.0
+offset_top = -39.0
+offset_right = 519.0
+offset_bottom = 309.0
+texture = ExtResource("2_iul6a")
+
+[node name="fadeInText" parent="Control" instance=ExtResource("2_2cayt")]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 482.0
+offset_bottom = 37.0
+
+[node name="camera" parent="." instance=ExtResource("1_atem8")]
+position = Vector2(240, 135)
+
+[node name="ground" parent="." instance=ExtResource("3_iul6a")]
+visible = false
+position = Vector2(81, 291)
+scale = Vector2(2.84, 6.12)
+
+[node name="collidableLetterSmallI" type="RigidBody2D" parent="."]
+position = Vector2(301.6, 181)
+collision_layer = 0
+collision_mask = 3
+freeze = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collidableLetterSmallI"]
+position = Vector2(-0.600017, 5.24521e-06)
+polygon = PackedVector2Array(5, 10, -2, 10, -2, -6, 5, -6)
+
+[node name="Sprite2D" type="Sprite2D" parent="collidableLetterSmallI"]
+position = Vector2(1, 2)
+texture = ExtResource("14_55nrq")
+
+[node name="collidableLetterM" type="RigidBody2D" parent="."]
+position = Vector2(272, 152)
+collision_layer = 0
+collision_mask = 3
+freeze = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collidableLetterM"]
+position = Vector2(-5.00001, -0.999995)
+polygon = PackedVector2Array(16, 14, -14, 14, -14, -12, -6, -12, 1, 3, 9, -12, 16, -12)
+
+[node name="Sprite2D" type="Sprite2D" parent="collidableLetterM"]
+position = Vector2(-4, 0)
+texture = ExtResource("6_o5wcp")
+
+[node name="collidableLetterSmallS" type="RigidBody2D" parent="."]
+position = Vector2(271.6, 181)
+collision_layer = 0
+collision_mask = 3
+freeze = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collidableLetterSmallS"]
+position = Vector2(-0.600017, 1.00001)
+polygon = PackedVector2Array(4, 9, -4, 9, -4, -7, 6, -7, 7, 2, 7, 6)
+
+[node name="Sprite2D" type="Sprite2D" parent="collidableLetterSmallS"]
+position = Vector2(1, 2)
+texture = ExtResource("13_lihm4")
+
+[node name="collidableLetter\'" type="RigidBody2D" parent="."]
+position = Vector2(314.6, 140)
+collision_layer = 0
+collision_mask = 3
+freeze = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collidableLetter\'"]
+position = Vector2(-0.600017, 5.24521e-06)
+polygon = PackedVector2Array(3.61145, -1.17766, 0.277802, 4.71069, 0.277802, -1.17766)
+
+[node name="Sprite2D" type="Sprite2D" parent="collidableLetter\'"]
+position = Vector2(1, 2)
+texture = ExtResource("8_btmd0")
+
+[node name="collidableLetterS" type="RigidBody2D" parent="."]
+position = Vector2(323.6, 154)
+collision_layer = 0
+collision_mask = 3
+freeze = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collidableLetterS"]
+position = Vector2(-0.600017, 5.24521e-06)
+polygon = PackedVector2Array(4, 11, -4, 11, -4, -4, -2, -7, 7, -7, 8, 2, 8, 8)
+
+[node name="Sprite2D" type="Sprite2D" parent="collidableLetterS"]
+position = Vector2(1, 2)
+texture = ExtResource("9_a2ocw")
+
+[node name="collidableLetterSmallU" type="RigidBody2D" parent="."]
+position = Vector2(236, 181)
+collision_layer = 0
+collision_mask = 3
+freeze = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collidableLetterSmallU"]
+position = Vector2(-0.999995, 5.24521e-06)
+polygon = PackedVector2Array(8, 10, -4, 10, -4, -6, 8, -6)
+
+[node name="Sprite2D" type="Sprite2D" parent="collidableLetterSmallU"]
+position = Vector2(1, 2)
+texture = ExtResource("10_rwl6j")
+
+[node name="collidableLetterA" type="RigidBody2D" parent="."]
+position = Vector2(302.6, 152.6)
+collision_layer = 0
+collision_mask = 3
+freeze = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collidableLetterA"]
+position = Vector2(-2.00001, -1.99999)
+polygon = PackedVector2Array(14.4, 14.4, -11.6, 14.4, 1.39999, -11.6)
+
+[node name="Sprite2D" type="Sprite2D" parent="collidableLetterA"]
+texture = ExtResource("7_3s32a")
+
+[node name="collidableLetterSmallR" type="RigidBody2D" parent="."]
+position = Vector2(254.6, 181)
+collision_layer = 0
+collision_mask = 3
+freeze = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collidableLetterSmallR"]
+position = Vector2(-0.600001, 5.24521e-06)
+polygon = PackedVector2Array(9, 10, -6, 10, -6, -6, 9, -6)
+
+[node name="Sprite2D" type="Sprite2D" parent="collidableLetterSmallR"]
+position = Vector2(1, 2)
+texture = ExtResource("12_lihm4")
+
+[node name="collidableLetterR" type="RigidBody2D" parent="."]
+position = Vector2(234, 152)
+collision_layer = 0
+collision_mask = 3
+freeze = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collidableLetterR"]
+position = Vector2(2, -1.00001)
+polygon = PackedVector2Array(12, 14, -14, 14, -14, -12, 3, -12, 8, -6, 3, 3)
+
+[node name="Sprite2D" type="Sprite2D" parent="collidableLetterR"]
+texture = ExtResource("3_imref")
+
+[node name="playButtonBody" type="RigidBody2D" parent="."]
+position = Vector2(204, 242)
+collision_layer = 0
+collision_mask = 0
+freeze = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="playButtonBody"]
+shape = SubResource("SegmentShape2D_2cayt")
+
+[node name="playButton" parent="playButtonBody" instance=ExtResource("14_q8rfg")]
+position = Vector2(0, 0)
+collision_layer = 0
+collision_mask = 0
+normalTexture = ExtResource("5_i1ce6")
+pressedTexture = ExtResource("5_2cayt")
+hoverTexture = ExtResource("6_2cayt")
+
+[connection signal="was_pressed" from="playButtonBody/playButton" to="." method="_on_play_button_was_pressed"]
