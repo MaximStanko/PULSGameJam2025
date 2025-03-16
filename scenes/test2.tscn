@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cy403iouac8t6"]
+[gd_scene load_steps=6 format=3 uid="uid://cy403iouac8t6"]
 
 [ext_resource type="PackedScene" uid="uid://bexhrk031q7a5" path="res://assets/prefabs/horizontalSliderObstacle.tscn" id="1_cy281"]
 [ext_resource type="PackedScene" uid="uid://cdsloxmlt0uf2" path="res://assets/prefabs/player.tscn" id="2_uxr5t"]
 [ext_resource type="PackedScene" uid="uid://cv5k5whsm5e56" path="res://assets/prefabs/verticalSliderObstacle.tscn" id="3_uxr5t"]
 [ext_resource type="PackedScene" uid="uid://fe4bix6mk1gg" path="res://assets/prefabs/speakerObstacle.tscn" id="4_51wsq"]
+[ext_resource type="PackedScene" uid="uid://dtivrhy6jydyd" path="res://assets/prefabs/shortVerticalSliderObstacle.tscn" id="5_jorxo"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -24,4 +25,9 @@ fills_up = true
 
 [node name="collidableSlider3" parent="." instance=ExtResource("1_cy281")]
 position = Vector2(369, 127)
+fills_up = true
+
+[node name="collidableSlider4" parent="." instance=ExtResource("5_jorxo")]
+position = Vector2(186, 158)
+rotation = -1.5708
 fills_up = true

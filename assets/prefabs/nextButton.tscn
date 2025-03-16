@@ -1,0 +1,76 @@
+[gd_scene load_steps=6 format=3 uid="uid://4rjq7hxrx0mb"]
+
+[ext_resource type="Texture2D" uid="uid://3uw3gf1jvqsr" path="res://assets/images/button/right.png" id="1_cnhp4"]
+
+[sub_resource type="GDScript" id="GDScript_cnhp4"]
+resource_name = "nextButtonControl"
+script/source = "extends TextureButton
+
+@onready var animationPlayer = get_child(0)
+
+@export var scenePath: String
+
+func _ready():
+	pressed.connect(Callable(self, \"change_scene\"))
+	self.visible = false
+
+func change_scene():
+	get_tree().change_scene_to_file(scenePath)
+
+func appear():
+	self.visible = true
+	self.disabled = false
+	animationPlayer.play(\"appear\")
+"
+
+[sub_resource type="Animation" id="Animation_cnhp4"]
+resource_name = "appear"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_gr2qp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_va2h6"]
+_data = {
+&"RESET": SubResource("Animation_gr2qp"),
+&"appear": SubResource("Animation_cnhp4")
+}
+
+[node name="nextButton" type="TextureButton"]
+anchors_preset = -1
+offset_right = 18.0
+offset_bottom = 18.0
+disabled = true
+texture_normal = ExtResource("1_cnhp4")
+texture_pressed = ExtResource("1_cnhp4")
+texture_hover = ExtResource("1_cnhp4")
+texture_focused = ExtResource("1_cnhp4")
+script = SubResource("GDScript_cnhp4")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_va2h6")
+}

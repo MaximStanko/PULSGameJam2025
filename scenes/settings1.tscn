@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://ctbp06ongkm4c"]
+[gd_scene load_steps=14 format=3 uid="uid://ctbp06ongkm4c"]
 
 [ext_resource type="Texture2D" uid="uid://dnpsu18evi5ef" path="res://assets/images/background/background01.png" id="1_ipiqq"]
 [ext_resource type="PackedScene" uid="uid://b60w3flc2qkh7" path="res://assets/prefabs/fadeInText.tscn" id="2_tetpr"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://cdsloxmlt0uf2" path="res://assets/prefabs/player.tscn" id="8_trii4"]
 [ext_resource type="Texture2D" uid="uid://4grywoy015v" path="res://assets/images/button/note.png" id="11_y3tlu"]
 [ext_resource type="PackedScene" uid="uid://dv51ik0gyvg3a" path="res://assets/prefabs/pickup.tscn" id="12_y3tlu"]
+[ext_resource type="PackedScene" uid="uid://4rjq7hxrx0mb" path="res://assets/prefabs/nextButton.tscn" id="13_ntwub"]
 [ext_resource type="PackedScene" uid="uid://c6p4sekc3ik2k" path="res://assets/prefabs/buttonObstacle.tscn" id="14_3gpiu"]
 
 [node name="root" type="Node2D"]
@@ -40,7 +41,6 @@ rotation = -1.57079
 
 [node name="player" parent="." instance=ExtResource("8_trii4")]
 position = Vector2(49, 223)
-SPEED = 100.0
 JUMP_VELOCITY = -400.0
 GRAVITY_MULTIPLIER = 2.0
 
@@ -56,5 +56,13 @@ offset_right = 421.0
 offset_bottom = 71.0
 texture = ExtResource("11_y3tlu")
 
-[node name="pickup" parent="." instance=ExtResource("12_y3tlu")]
+[node name="pickup" parent="." node_paths=PackedStringArray("appearingButton") instance=ExtResource("12_y3tlu")]
 position = Vector2(237, 78)
+appearingButton = NodePath("../nextButton")
+
+[node name="nextButton" parent="." instance=ExtResource("13_ntwub")]
+anchors_preset = 0
+offset_left = 310.0
+offset_top = 21.0
+offset_right = 328.0
+offset_bottom = 39.0
