@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://b60w3flc2qkh7"]
+[gd_scene load_steps=3 format=3 uid="uid://b60w3flc2qkh7"]
+
+[ext_resource type="FontFile" uid="uid://cq40vgh857a8f" path="res://assets/fonts/PublicPixel.ttf" id="1_bu7q1"]
 
 [sub_resource type="GDScript" id="GDScript_l3kmb"]
 resource_name = "fadeInTextControl"
@@ -32,10 +34,17 @@ func _process(delta):
 "
 
 [node name="fadeInText" type="RichTextLabel"]
-offset_left = 402.0
-offset_top = 499.0
-offset_right = 884.0
-offset_bottom = 536.0
+anchors_preset = -1
+anchor_left = 0.04
+anchor_top = 0.063
+anchor_right = 0.04
+anchor_bottom = 0.063
+offset_left = -19.2
+offset_top = -17.01
+offset_right = 280.8
+offset_bottom = 19.99
+theme_override_fonts/normal_font = ExtResource("1_bu7q1")
+theme_override_font_sizes/normal_font_size = 8
 fit_content = true
 scroll_active = false
 script = SubResource("GDScript_l3kmb")

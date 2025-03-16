@@ -1,11 +1,14 @@
-[gd_scene load_steps=20 format=3 uid="uid://cb0nru3otrsla"]
+[gd_scene load_steps=23 format=3 uid="uid://cb0nru3otrsla"]
 
 [ext_resource type="PackedScene" uid="uid://b8aby1eqxx225" path="res://assets/prefabs/shakeCamera.tscn" id="1_atem8"]
 [ext_resource type="PackedScene" uid="uid://b60w3flc2qkh7" path="res://assets/prefabs/fadeInText.tscn" id="2_2cayt"]
 [ext_resource type="Texture2D" uid="uid://cpuq4a20aqkag" path="res://assets/images/background/Title_background.png" id="2_iul6a"]
 [ext_resource type="Texture2D" uid="uid://c8hac7ypxwu78" path="res://assets/images/titleLetters/R.png" id="3_imref"]
 [ext_resource type="PackedScene" uid="uid://cfahc5105flwf" path="res://assets/prefabs/ground.tscn" id="3_iul6a"]
+[ext_resource type="Texture2D" uid="uid://ckusf3we60ab4" path="res://assets/images/button/settings_button.png" id="3_up1mi"]
+[ext_resource type="Texture2D" uid="uid://dm5tfm0u4bl2f" path="res://assets/images/button/settings_button_disabled.png" id="4_dmvd5"]
 [ext_resource type="Texture2D" uid="uid://bwgn081q1vxqu" path="res://assets/images/button/start_button_pressed.png" id="5_2cayt"]
+[ext_resource type="Script" uid="uid://3u1t5vm0w103" path="res://scripts/changeSceneButtonControl.gd" id="5_awtcc"]
 [ext_resource type="Texture2D" uid="uid://by0kwbqnpl8rx" path="res://assets/images/button/start_button_full.png" id="5_i1ce6"]
 [ext_resource type="Texture2D" uid="uid://bo6a1ldnwnyy5" path="res://assets/images/button/start_button_hover.png" id="6_2cayt"]
 [ext_resource type="Texture2D" uid="uid://dhpgu6pjrn2t8" path="res://assets/images/titleLetters/M.png" id="6_o5wcp"]
@@ -22,10 +25,13 @@
 resource_name = "titleScreenControl"
 script/source = "extends Node2D
 
+const playerPrefab = preload(\"res://assets/prefabs/player.tscn\")
+
 var letters: Array
 var camera: Camera2D
 var playButtonBody: RigidBody2D
 var fadeInText: RichTextLabel
+var settingsButton: TextureButton
 
 var letter_index: int = 0
 var button_presses: int = 0
@@ -41,7 +47,9 @@ func _ready():
 		match child.get_name():
 			\"camera\": camera = child
 			\"playButtonBody\": playButtonBody = child
-			\"Control\": fadeInText = child.get_child(1)
+			\"Control\": 
+				fadeInText = child.get_child(1)
+				settingsButton = child.get_child(2)
 			var child_name:
 				if child_name.contains(\"collidableLetter\"):
 					letters.append(child)
@@ -68,12 +76,24 @@ func fly_button_fly():
 	playButtonBody.apply_impulse(Vector2.UP.rotated(PI * 0.3) * 400)
 	playButtonBody.apply_torque(3000.0)
 	camera.add_trauma(1.0)
-	fadeInText.fade_text(\"halt dein maul\")
+	fadeInText.fade_text(\"Nooo! We need that play button! What have you done?           \\nNow take responsibility. Go to settings and repair it!\")
+	await get_tree().create_timer(4).timeout
+	var player = playerPrefab.instantiate()
+	self.add_child(player)
+	player.position = Vector2(83,-20)
+	await get_tree().create_timer(4).timeout
+	settingsButton.disabled = false
+	settingsButton.modulate = Color(1,1,1,1)
+	fadeInText.fade_text(\"You can move with WASD and jump with SPACE by the way.\")
+	
 
 func _on_play_button_was_pressed():
 	button_presses += 1
 	match button_presses:
-		1: fadeInText.fade_text(\"u stupid\")
+		3: fadeInText.fade_text(\"Hey! What are you doing? It cleary doesnt work. Please try again later!!!\")
+		5: fadeInText.fade_text(\"Now see what you've done! You are breaking the game. Stop it.\")
+		7: fadeInText.fade_text(\"Hello? Are you listening? The game doesn't work right now.\")
+		13: fadeInText.fade_text(\"Wow, you did it - now it's kaput >:c\")
 	if button_presses == 5 or button_presses >= 7:
 		loosen_letter()
 	else:
@@ -100,14 +120,42 @@ offset_bottom = 309.0
 texture = ExtResource("2_iul6a")
 
 [node name="fadeInText" parent="Control" instance=ExtResource("2_2cayt")]
-layout_mode = 0
+layout_mode = 1
+anchor_left = 0.575
+anchor_top = 0.5
+anchor_right = 0.575
+anchor_bottom = 0.5
 offset_left = 0.0
 offset_top = 0.0
-offset_right = 482.0
+offset_right = 300.0
 offset_bottom = 37.0
+
+[node name="settingsButton" type="TextureButton" parent="Control"]
+modulate = Color(1, 1, 1, 0.352941)
+layout_mode = 0
+offset_left = 429.0
+offset_top = 20.0
+offset_right = 455.0
+offset_bottom = 47.0
+disabled = true
+texture_normal = ExtResource("3_up1mi")
+texture_pressed = ExtResource("3_up1mi")
+texture_hover = ExtResource("3_up1mi")
+texture_disabled = ExtResource("4_dmvd5")
+texture_focused = ExtResource("3_up1mi")
+script = ExtResource("5_awtcc")
+scenePath = "C:/Users/fmaxi/Desktop/gucknichtso/Coding/PULS_GameJam/scenes/settings1.tscn"
 
 [node name="camera" parent="." instance=ExtResource("1_atem8")]
 position = Vector2(240, 135)
+
+[node name="wallright" parent="." instance=ExtResource("3_iul6a")]
+position = Vector2(490, 197)
+scale = Vector2(0.2, 30)
+
+[node name="wallleft" parent="." instance=ExtResource("3_iul6a")]
+position = Vector2(-17, 229)
+scale = Vector2(0.105599, 36.8944)
 
 [node name="ground" parent="." instance=ExtResource("3_iul6a")]
 position = Vector2(81, 291)
