@@ -68,7 +68,6 @@ rotation = -1.57079
 [node name="player" parent="." instance=ExtResource("1_bl13t")]
 position = Vector2(49, 223)
 SPEED = 200.0
-JUMP_VELOCITY = -400.0
 GRAVITY_MULTIPLIER = 2.0
 
 [node name="fadeInText" parent="." instance=ExtResource("9_yk7ts")]

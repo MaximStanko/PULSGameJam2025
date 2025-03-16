@@ -5,7 +5,7 @@ resource_name = "cameraControl"
 script/source = "extends Camera2D
 
 @export var decay: float = 0.999 #How quickly shaking will stop [0,1].
-@export var max_offset: Vector2 = Vector2(200,200) #Maximum displacement in pixels.
+@export var max_offset: Vector2 = Vector2(39,39) #Maximum displacement in pixels.
 @export var max_roll: float = 0.2 #Maximum rotation in radians (use sparingly).
 @export var violence_factor: float = 2.0 #How violent the shake is [1,3]
 @export var noise: FastNoiseLite #The source of random values.
@@ -13,7 +13,7 @@ script/source = "extends Camera2D
 var noise_y = 0 #Value used to move through the noise
 
 var trauma := 0.0 #Current shake strength
-var trauma_pwr := 3 #Trauma exponent. Use [2,3]
+var trauma_pwr := 2.2 #Trauma exponent. Use [2,3]
 
 func _ready():
 	randomize()
