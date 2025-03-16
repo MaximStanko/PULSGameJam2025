@@ -40,7 +40,7 @@ func _on_button_pressed():
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bl13t"]
-size = Vector2(279.95, 68)
+size = Vector2(70, 17)
 
 [sub_resource type="GDScript" id="GDScript_iyx0m"]
 resource_name = "obstacleButtonCollider"
@@ -60,9 +60,10 @@ func _on_button_pressed():
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_etubn"]
-size = Vector2(268, 43)
+size = Vector2(66, 15)
 
 [node name="button" type="StaticBody2D"]
+position = Vector2(-1, 0)
 collision_layer = 8
 script = SubResource("GDScript_exdpr")
 
@@ -76,25 +77,24 @@ offset_bottom = -409.0
 
 [node name="TextureButton" type="TextureButton" parent="Control"]
 layout_mode = 0
-offset_left = -42.0
-offset_top = 412.0
-offset_right = 28.0
-offset_bottom = 430.0
-scale = Vector2(4, 4)
+offset_left = 98.0
+offset_top = 452.0
+offset_right = 168.0
+offset_bottom = 470.0
 action_mode = 0
 texture_normal = ExtResource("1_etubn")
 texture_pressed = ExtResource("3_xbhg4")
 texture_hover = ExtResource("2_pejx7")
 
 [node name="buttonCollider" type="CollisionShape2D" parent="."]
-position = Vector2(1.02499, 2)
+position = Vector2(36, 12.5)
 shape = SubResource("RectangleShape2D_bl13t")
 script = SubResource("GDScript_iyx0m")
 
 [node name="Area2D" type="Area2D" parent="." groups=["buttonPressureArea"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, -19.5)
+position = Vector2(36, 8)
 shape = SubResource("RectangleShape2D_etubn")
 
 [connection signal="button_down" from="Control/TextureButton" to="buttonCollider" method="_on_button_down"]
