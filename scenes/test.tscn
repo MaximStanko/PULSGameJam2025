@@ -4,9 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://cdsloxmlt0uf2" path="res://assets/prefabs/player.tscn" id="1_bl13t"]
 [ext_resource type="PackedScene" uid="uid://c6p4sekc3ik2k" path="res://assets/prefabs/buttonObstacle.tscn" id="1_iyx0m"]
 [ext_resource type="PackedScene" uid="uid://cfahc5105flwf" path="res://assets/prefabs/ground.tscn" id="3_iyx0m"]
-[ext_resource type="PackedScene" uid="uid://bexhrk031q7a5" path="res://assets/prefabs/horizontalSliderObstacle.tscn" id="4_74lek"]
-[ext_resource type="Texture2D" uid="uid://clq1l3m3u13gj" path="res://assets/images/button/Wide_button_full.png" id="4_yk7ts"]
-[ext_resource type="Texture2D" uid="uid://b1ormtyuu2iai" path="res://assets/images/button/Wide_button_press.png" id="5_ajshl"]
+[ext_resource type="PackedScene" uid="uid://bexhrk031q7a5" path="res://assets/prefabs/sliderObstacle.tscn" id="4_74lek"]
+[ext_resource type="Script" uid="uid://bja8vqmgokv8u" path="res://scripts/textAnimation.gd" id="4_lpvoh"]
 [ext_resource type="PackedScene" uid="uid://b8aby1eqxx225" path="res://assets/prefabs/shakeCamera.tscn" id="5_j5jx5"]
 [ext_resource type="Texture2D" uid="uid://bujfyydfb43ut" path="res://assets/images/button/Wide_button_hover.png" id="6_ghpyy"]
 [ext_resource type="PackedScene" uid="uid://b60w3flc2qkh7" path="res://assets/prefabs/fadeInText.tscn" id="9_yk7ts"]
@@ -61,9 +60,21 @@ normalTexture = ExtResource("4_yk7ts")
 pressedTexture = ExtResource("5_ajshl")
 hoverTexture = ExtResource("6_ghpyy")
 
-[node name="vSlider" parent="." instance=ExtResource("11_ajshl")]
-position = Vector2(408, 130)
-rotation = -1.57079
+[node name="hSlider" parent="." instance=ExtResource("4_74lek")]
+position = Vector2(489, 440)
+
+[node name="vSlider" parent="." instance=ExtResource("4_74lek")]
+position = Vector2(639, 410)
+rotation = -1.5708
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 4.0
+offset_top = 270.0
+offset_right = 486.0
+offset_bottom = 307.0
+fit_content = true
+scroll_active = false
+script = ExtResource("4_lpvoh")
 
 [node name="player" parent="." instance=ExtResource("1_bl13t")]
 position = Vector2(49, 223)
