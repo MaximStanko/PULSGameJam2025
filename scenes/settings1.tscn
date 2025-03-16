@@ -1,0 +1,60 @@
+[gd_scene load_steps=13 format=3 uid="uid://ctbp06ongkm4c"]
+
+[ext_resource type="Texture2D" uid="uid://dnpsu18evi5ef" path="res://assets/images/background/background01.png" id="1_ipiqq"]
+[ext_resource type="PackedScene" uid="uid://b60w3flc2qkh7" path="res://assets/prefabs/fadeInText.tscn" id="2_tetpr"]
+[ext_resource type="PackedScene" uid="uid://cfahc5105flwf" path="res://assets/prefabs/ground.tscn" id="3_0elff"]
+[ext_resource type="PackedScene" uid="uid://b8aby1eqxx225" path="res://assets/prefabs/shakeCamera.tscn" id="4_06i2s"]
+[ext_resource type="Texture2D" uid="uid://clq1l3m3u13gj" path="res://assets/images/button/Wide_button_full.png" id="4_y3tlu"]
+[ext_resource type="Texture2D" uid="uid://b1ormtyuu2iai" path="res://assets/images/button/Wide_button_press.png" id="5_ml1oj"]
+[ext_resource type="Texture2D" uid="uid://bujfyydfb43ut" path="res://assets/images/button/Wide_button_hover.png" id="6_ntwub"]
+[ext_resource type="PackedScene" uid="uid://cv5k5whsm5e56" path="res://assets/prefabs/verticalSliderObstacle.tscn" id="7_os7gb"]
+[ext_resource type="PackedScene" uid="uid://cdsloxmlt0uf2" path="res://assets/prefabs/player.tscn" id="8_trii4"]
+[ext_resource type="Texture2D" uid="uid://4grywoy015v" path="res://assets/images/button/note.png" id="11_y3tlu"]
+[ext_resource type="PackedScene" uid="uid://dv51ik0gyvg3a" path="res://assets/prefabs/pickup.tscn" id="12_y3tlu"]
+[ext_resource type="PackedScene" uid="uid://c6p4sekc3ik2k" path="res://assets/prefabs/buttonObstacle.tscn" id="14_3gpiu"]
+
+[node name="root" type="Node2D"]
+
+[node name="background" type="TextureRect" parent="."]
+offset_left = -39.0
+offset_top = -39.0
+offset_right = 519.0
+offset_bottom = 309.0
+texture = ExtResource("1_ipiqq")
+
+[node name="ground" parent="." instance=ExtResource("3_0elff")]
+visible = false
+position = Vector2(120, 249)
+scale = Vector2(1.175, 1.175)
+
+[node name="button" parent="." instance=ExtResource("14_3gpiu")]
+position = Vector2(201, 95)
+togglable = true
+normalTexture = ExtResource("4_y3tlu")
+pressedTexture = ExtResource("5_ml1oj")
+hoverTexture = ExtResource("6_ntwub")
+
+[node name="vSlider" parent="." instance=ExtResource("7_os7gb")]
+position = Vector2(293, 137)
+rotation = -1.57079
+
+[node name="player" parent="." instance=ExtResource("8_trii4")]
+position = Vector2(49, 223)
+SPEED = 100.0
+JUMP_VELOCITY = -400.0
+GRAVITY_MULTIPLIER = 2.0
+
+[node name="fadeInText" parent="." instance=ExtResource("2_tetpr")]
+
+[node name="camera" parent="." instance=ExtResource("4_06i2s")]
+position = Vector2(240, 135)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = 392.0
+offset_top = 42.0
+offset_right = 421.0
+offset_bottom = 71.0
+texture = ExtResource("11_y3tlu")
+
+[node name="pickup" parent="." instance=ExtResource("12_y3tlu")]
+position = Vector2(237, 78)

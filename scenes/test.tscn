@@ -47,36 +47,35 @@ func _process(delta):
 [node name="background" type="TextureRect" parent="."]
 offset_right = 480.0
 offset_bottom = 270.0
-scale = Vector2(3.4, 3.4)
 texture = ExtResource("1_at5dv")
 metadata/_edit_use_anchors_ = true
 
 [node name="ground" parent="." instance=ExtResource("3_iyx0m")]
-position = Vector2(780, 889)
-scale = Vector2(8.33, 8.33)
+position = Vector2(120, 249)
+scale = Vector2(1.175, 1.175)
 
 [node name="button" parent="." instance=ExtResource("1_iyx0m")]
-position = Vector2(734, 673)
+position = Vector2(94, 209)
 togglable = true
 normalTexture = ExtResource("4_yk7ts")
 pressedTexture = ExtResource("5_ajshl")
 hoverTexture = ExtResource("6_ghpyy")
 
 [node name="vSlider" parent="." instance=ExtResource("11_ajshl")]
-position = Vector2(422, 505)
+position = Vector2(408, 130)
 rotation = -1.57079
-scale = Vector2(3.4, 3.4)
 
 [node name="player" parent="." instance=ExtResource("1_bl13t")]
-position = Vector2(736, 340)
-scale = Vector2(4, 4)
+position = Vector2(49, 223)
+SPEED = 200.0
+JUMP_VELOCITY = -400.0
+GRAVITY_MULTIPLIER = 2.0
 
 [node name="fadeInText" parent="." instance=ExtResource("9_yk7ts")]
 script = SubResource("GDScript_ajshl")
 
 [node name="camera" parent="." instance=ExtResource("5_j5jx5")]
-position = Vector2(800, 450)
+position = Vector2(240, 135)
 
 [node name="collidableSlider" parent="." instance=ExtResource("4_74lek")]
-position = Vector2(1277, 675)
-scale = Vector2(3.4, 3.4)
+position = Vector2(266, 216)
