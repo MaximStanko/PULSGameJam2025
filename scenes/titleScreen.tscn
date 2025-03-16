@@ -58,6 +58,7 @@ func fly_button_fly():
 	playButtonBody.freeze = false
 	playButtonBody.apply_impulse(Vector2.UP.rotated(PI * 0.3) * 400)
 	playButtonBody.apply_torque(3000.0)
+	camera.add_trauma(1.0)
 	fadeInText.fade_text(\"halt dein maul\")
 
 func _on_play_button_was_pressed():
@@ -66,6 +67,8 @@ func _on_play_button_was_pressed():
 		1: fadeInText.fade_text(\"u stupid\")
 	if button_presses == 5 or button_presses >= 7:
 		loosen_letter()
+	else:
+		camera.add_trauma(0.5)
 "
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_2cayt"]
