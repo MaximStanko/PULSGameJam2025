@@ -3,13 +3,12 @@
 [ext_resource type="PackedScene" uid="uid://bexhrk031q7a5" path="res://assets/prefabs/horizontalSliderObstacle.tscn" id="1_cy281"]
 [ext_resource type="PackedScene" uid="uid://cdsloxmlt0uf2" path="res://assets/prefabs/player.tscn" id="2_uxr5t"]
 [ext_resource type="PackedScene" uid="uid://cv5k5whsm5e56" path="res://assets/prefabs/verticalSliderObstacle.tscn" id="3_uxr5t"]
-[ext_resource type="PackedScene" uid="uid://fe4bix6mk1gg" path="res://assets/prefabs/speaker.tscn" id="4_51wsq"]
+[ext_resource type="PackedScene" uid="uid://fe4bix6mk1gg" path="res://assets/prefabs/speakerObstacle.tscn" id="4_51wsq"]
 
 [node name="Node2D" type="Node2D"]
 
 [node name="collidableSlider" parent="." instance=ExtResource("1_cy281")]
 position = Vector2(367, 233)
-fills_up = true
 
 [node name="player" parent="." instance=ExtResource("2_uxr5t")]
 position = Vector2(245, 122)
@@ -21,6 +20,8 @@ settingSlider = NodePath("../collidableSlider2")
 [node name="collidableSlider2" parent="." instance=ExtResource("3_uxr5t")]
 position = Vector2(160, 165)
 rotation = -1.5708
+fills_up = true
 
 [node name="collidableSlider3" parent="." instance=ExtResource("1_cy281")]
 position = Vector2(369, 127)
+fills_up = true
