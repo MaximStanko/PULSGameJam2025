@@ -1,0 +1,112 @@
+[gd_scene load_steps=24 format=3 uid="uid://cl83gwyje71s5"]
+
+[ext_resource type="Texture2D" uid="uid://bpex40q6d756g" path="res://assets/images/background/backgroundSound.png" id="1_ueqk1"]
+[ext_resource type="PackedScene" uid="uid://c6p4sekc3ik2k" path="res://assets/prefabs/buttonObstacle.tscn" id="5_inh44"]
+[ext_resource type="Texture2D" uid="uid://v4ccbfrl1oby" path="res://assets/images/button/customButtons/button_high_pitch_full.png" id="6_1haid"]
+[ext_resource type="Texture2D" uid="uid://p01tcxelnxyt" path="res://assets/images/button/customButtons/button_high_pitch_press.png" id="7_gtp7a"]
+[ext_resource type="Texture2D" uid="uid://d4dsh5554b0c0" path="res://assets/images/button/customButtons/button_high_pitch_hover.png" id="8_cfbuf"]
+[ext_resource type="PackedScene" uid="uid://dtivrhy6jydyd" path="res://assets/prefabs/shortVerticalSliderObstacle.tscn" id="8_g4fpf"]
+[ext_resource type="PackedScene" uid="uid://cdsloxmlt0uf2" path="res://assets/prefabs/player.tscn" id="8_x6a5g"]
+[ext_resource type="PackedScene" uid="uid://b60w3flc2qkh7" path="res://assets/prefabs/fadeInText.tscn" id="9_85atd"]
+[ext_resource type="Texture2D" uid="uid://21yww75aavqi" path="res://assets/images/button/customButtons/button_medium_pitch_full.png" id="9_hbm1h"]
+[ext_resource type="Texture2D" uid="uid://dpofcj743m6v5" path="res://assets/images/button/customButtons/button_medium_pitch_press.png" id="10_2rvk6"]
+[ext_resource type="PackedScene" uid="uid://fe4bix6mk1gg" path="res://assets/prefabs/speakerObstacle.tscn" id="10_o71d0"]
+[ext_resource type="PackedScene" uid="uid://b8aby1eqxx225" path="res://assets/prefabs/shakeCamera.tscn" id="10_vpw21"]
+[ext_resource type="PackedScene" uid="uid://dv51ik0gyvg3a" path="res://assets/prefabs/pickup.tscn" id="11_7f2lo"]
+[ext_resource type="Texture2D" uid="uid://32qid4j0drpm" path="res://assets/images/button/customButtons/button_medium_pitch_hover.png" id="11_s5sfk"]
+[ext_resource type="Texture2D" uid="uid://b8twypcs8a0kk" path="res://assets/images/button/customButtons/button_low_pitch_full.png" id="12_rbyyb"]
+[ext_resource type="PackedScene" uid="uid://cfahc5105flwf" path="res://assets/prefabs/ground.tscn" id="12_yybou"]
+[ext_resource type="Texture2D" uid="uid://dkqtv85gy5y1k" path="res://assets/images/button/customButtons/button_low_pitch_press.png" id="13_as5pg"]
+[ext_resource type="PackedScene" uid="uid://4rjq7hxrx0mb" path="res://assets/prefabs/nextButton.tscn" id="13_u8ndr"]
+[ext_resource type="Texture2D" uid="uid://b0do7oudegcdu" path="res://assets/images/button/customButtons/button_low_pitch_hover.png" id="14_0cs23"]
+[ext_resource type="Texture2D" uid="uid://bkd2l6god0agl" path="res://assets/images/button/customButtons/button_mute_narrator_full.png" id="19_as5pg"]
+[ext_resource type="Texture2D" uid="uid://c12ahoh51djcj" path="res://assets/images/button/customButtons/button_mute_narrator_press.png" id="20_0cs23"]
+[ext_resource type="Texture2D" uid="uid://cgr54h46ubwny" path="res://assets/images/button/customButtons/button_mute_narrator_hover.png" id="21_pyaxs"]
+[ext_resource type="Texture2D" uid="uid://4grywoy015v" path="res://assets/images/button/note.png" id="23_0cs23"]
+
+[node name="root" type="Node2D"]
+
+[node name="background" type="TextureRect" parent="."]
+offset_left = -39.0
+offset_top = -39.0
+offset_right = 519.0
+offset_bottom = 309.0
+texture = ExtResource("1_ueqk1")
+
+[node name="player" parent="." instance=ExtResource("8_x6a5g")]
+position = Vector2(49, 221)
+
+[node name="fadeInText" parent="." instance=ExtResource("9_85atd")]
+
+[node name="camera" parent="." instance=ExtResource("10_vpw21")]
+position = Vector2(240, 135)
+
+[node name="pickup" parent="." node_paths=PackedStringArray("appearingButton") instance=ExtResource("11_7f2lo")]
+position = Vector2(171, 83)
+appearingButton = NodePath("../nextButton")
+
+[node name="ground" parent="." instance=ExtResource("12_yybou")]
+visible = false
+position = Vector2(120, 249)
+scale = Vector2(1.175, 1.175)
+
+[node name="ceiling" parent="." instance=ExtResource("12_yybou")]
+visible = false
+position = Vector2(114, 20)
+scale = Vector2(1.175, 1.175)
+
+[node name="rightwall" parent="." instance=ExtResource("12_yybou")]
+visible = false
+position = Vector2(462, 20)
+rotation = 1.5708
+scale = Vector2(1.175, 1.175)
+
+[node name="leftwall" parent="." instance=ExtResource("12_yybou")]
+visible = false
+position = Vector2(18, 38)
+rotation = 1.5708
+scale = Vector2(1.175, 1.175)
+
+[node name="nextButton" parent="." instance=ExtResource("13_u8ndr")]
+offset_left = 408.0
+offset_top = 21.0
+offset_right = 426.0
+offset_bottom = 39.0
+scenePath = "res://scenes/endOfDemo.tscn"
+
+[node name="speaker" parent="." node_paths=PackedStringArray("settingSlider") instance=ExtResource("10_o71d0")]
+position = Vector2(89, 179)
+settingSlider = NodePath("../collidableSlider")
+
+[node name="collidableSlider" parent="." instance=ExtResource("8_g4fpf")]
+position = Vector2(389, 135)
+rotation = -1.5708
+fills_up = true
+
+[node name="button" parent="." instance=ExtResource("5_inh44")]
+position = Vector2(114, 179)
+normalTexture = ExtResource("6_1haid")
+pressedTexture = ExtResource("7_gtp7a")
+hoverTexture = ExtResource("8_cfbuf")
+
+[node name="button2" parent="." instance=ExtResource("5_inh44")]
+position = Vector2(199, 153)
+normalTexture = ExtResource("9_hbm1h")
+pressedTexture = ExtResource("10_2rvk6")
+hoverTexture = ExtResource("11_s5sfk")
+
+[node name="button3" parent="." instance=ExtResource("5_inh44")]
+position = Vector2(279, 179)
+normalTexture = ExtResource("12_rbyyb")
+pressedTexture = ExtResource("13_as5pg")
+hoverTexture = ExtResource("14_0cs23")
+
+[node name="button4" parent="." instance=ExtResource("5_inh44")]
+position = Vector2(115, 100)
+normalTexture = ExtResource("19_as5pg")
+pressedTexture = ExtResource("20_0cs23")
+hoverTexture = ExtResource("21_pyaxs")
+
+[node name="Note" type="Sprite2D" parent="."]
+position = Vector2(360, 80)
+texture = ExtResource("23_0cs23")

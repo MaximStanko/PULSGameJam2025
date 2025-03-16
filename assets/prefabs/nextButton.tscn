@@ -18,25 +18,11 @@ func change_scene():
 	get_tree().change_scene_to_file(scenePath)
 
 func appear():
+	animationPlayer.play(\"appear\")
+	await get_tree().create_timer(0.1).timeout
 	self.visible = true
 	self.disabled = false
-	animationPlayer.play(\"appear\")
 "
-
-[sub_resource type="Animation" id="Animation_cnhp4"]
-resource_name = "appear"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:modulate:a")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.0, 1.0]
-}
 
 [sub_resource type="Animation" id="Animation_gr2qp"]
 length = 0.001
@@ -53,6 +39,21 @@ tracks/0/keys = {
 "values": [1.0]
 }
 
+[sub_resource type="Animation" id="Animation_cnhp4"]
+resource_name = "appear"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_va2h6"]
 _data = {
 &"RESET": SubResource("Animation_gr2qp"),
@@ -60,7 +61,6 @@ _data = {
 }
 
 [node name="nextButton" type="TextureButton"]
-anchors_preset = -1
 offset_right = 18.0
 offset_bottom = 18.0
 disabled = true

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Kaputt"
-run/main_scene="uid://bwukx8x4w1xpn"
+run/main_scene="uid://cb0nru3otrsla"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://assets/images/icon.svg"
 

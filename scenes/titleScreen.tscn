@@ -85,6 +85,8 @@ func fly_button_fly():
 	settingsButton.disabled = false
 	settingsButton.modulate = Color(1,1,1,1)
 	fadeInText.fade_text(\"You can move with WASD and jump with SPACE by the way.\")
+	await get_tree().create_timer(10).timeout
+	fadeInText.fade_text(\"You should click the settings symbol now!\")
 	
 
 func _on_play_button_was_pressed():
@@ -144,7 +146,7 @@ texture_hover = ExtResource("3_up1mi")
 texture_disabled = ExtResource("4_dmvd5")
 texture_focused = ExtResource("3_up1mi")
 script = ExtResource("5_awtcc")
-scenePath = "C:/Users/fmaxi/Desktop/gucknichtso/Coding/PULS_GameJam/scenes/settings1.tscn"
+scenePath = "res://scenes/soundSettings.tscn"
 
 [node name="camera" parent="." instance=ExtResource("1_atem8")]
 position = Vector2(240, 135)

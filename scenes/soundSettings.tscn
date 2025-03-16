@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bq3wg2a2v4mrg"]
+[gd_scene load_steps=14 format=3 uid="uid://bq3wg2a2v4mrg"]
 
 [ext_resource type="Texture2D" uid="uid://bpex40q6d756g" path="res://assets/images/background/backgroundSound.png" id="1_7r1ap"]
 [ext_resource type="PackedScene" uid="uid://b60w3flc2qkh7" path="res://assets/prefabs/fadeInText.tscn" id="2_tetpr"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://bexhrk031q7a5" path="res://assets/prefabs/horizontalSliderObstacle.tscn" id="7_7xc2s"]
 [ext_resource type="PackedScene" uid="uid://cdsloxmlt0uf2" path="res://assets/prefabs/player.tscn" id="8_trii4"]
 [ext_resource type="PackedScene" uid="uid://dv51ik0gyvg3a" path="res://assets/prefabs/pickup.tscn" id="12_y3tlu"]
+[ext_resource type="PackedScene" uid="uid://4rjq7hxrx0mb" path="res://assets/prefabs/nextButton.tscn" id="13_8jg1r"]
 
 [node name="root" type="Node2D"]
 
@@ -79,17 +80,15 @@ position = Vector2(291, 106)
 
 [node name="player" parent="." instance=ExtResource("8_trii4")]
 position = Vector2(49, 223)
-SPEED = 100.0
-JUMP_VELOCITY = -250.0
-GRAVITY_MULTIPLIER = 1.0
 
 [node name="fadeInText" parent="." instance=ExtResource("2_tetpr")]
 
 [node name="camera" parent="." instance=ExtResource("4_06i2s")]
 position = Vector2(240, 135)
 
-[node name="pickup" parent="." instance=ExtResource("12_y3tlu")]
+[node name="pickup" parent="." node_paths=PackedStringArray("appearingButton") instance=ExtResource("12_y3tlu")]
 position = Vector2(289, 83)
+appearingButton = NodePath("../nextButton")
 
 [node name="ground" parent="." instance=ExtResource("3_0elff")]
 visible = false
@@ -112,3 +111,10 @@ visible = false
 position = Vector2(18, 38)
 rotation = 1.5708
 scale = Vector2(1.175, 1.175)
+
+[node name="nextButton" parent="." instance=ExtResource("13_8jg1r")]
+offset_left = 408.0
+offset_top = 21.0
+offset_right = 426.0
+offset_bottom = 39.0
+scenePath = "res://scenes/narratorSettings.tscn"

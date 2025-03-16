@@ -60,7 +60,7 @@ func _on_button_pressed():
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_etubn"]
-size = Vector2(66, 15)
+size = Vector2(68, 15)
 
 [node name="button" type="StaticBody2D"]
 position = Vector2(-1, 0)

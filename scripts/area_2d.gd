@@ -14,4 +14,5 @@ func _on_body_entered(body):
 		particles.set_emitting(false)
 		hasEntered = true
 		animationPlayer.play("disappear")
+		await get_tree().create_timer(1).timeout
 		appearingButton.appear()

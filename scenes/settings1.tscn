@@ -61,7 +61,6 @@ position = Vector2(237, 78)
 appearingButton = NodePath("../nextButton")
 
 [node name="nextButton" parent="." instance=ExtResource("13_ntwub")]
-anchors_preset = 0
 offset_left = 310.0
 offset_top = 21.0
 offset_right = 328.0

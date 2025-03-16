@@ -1,0 +1,53 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgkp7vneyh36j"]
+
+[ext_resource type="PackedScene" uid="uid://b60w3flc2qkh7" path="res://assets/prefabs/fadeInText.tscn" id="1_5gr0p"]
+[ext_resource type="PackedScene" uid="uid://b8aby1eqxx225" path="res://assets/prefabs/shakeCamera.tscn" id="1_wa7j1"]
+
+[sub_resource type="GDScript" id="GDScript_wa7j1"]
+resource_name = "endOfDemoControl"
+script/source = "extends Node2D
+
+@onready var camera = get_child(0)
+@onready var narratorBox = get_child(1).get_child(1)
+
+func _ready():
+	narratorBox.fade_text(\"Huh, what happened now?\")
+	await get_tree().create_timer(3).timeout
+	narratorBox.fade_text(\"I guess the game isn't finished yet.   \\nThat's really sad :(\")
+	await get_tree().create_timer(5).timeout
+	narratorBox.fade_text(\"But thanks for playing the demo tho-                \\nhuh what's happening?\")
+	await get_tree().create_timer(2.0).timeout
+	camera.add_trauma(0.7)
+	await get_tree().create_timer(1.5).timeout
+	get_tree().quit()
+"
+
+[node name="EndOfDemo" type="Node2D"]
+script = SubResource("GDScript_wa7j1")
+
+[node name="camera" parent="." instance=ExtResource("1_wa7j1")]
+position = Vector2(240, 135)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 480.0
+offset_bottom = 270.0
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 0
+offset_left = -76.0
+offset_top = -75.0
+offset_right = 557.0
+offset_bottom = 353.0
+color = Color(0, 0, 0, 1)
+
+[node name="fadeInText" parent="Control" instance=ExtResource("1_5gr0p")]
+layout_mode = 1
+anchor_top = 0.081
+anchor_right = 0.044
+anchor_bottom = 0.081
+offset_left = 1.8
+offset_top = 0.129999
+offset_right = 439.88
+offset_bottom = 58.13
