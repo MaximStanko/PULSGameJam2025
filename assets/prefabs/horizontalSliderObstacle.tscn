@@ -1,20 +1,9 @@
 [gd_scene load_steps=13 format=3 uid="uid://bexhrk031q7a5"]
 
+[ext_resource type="Script" uid="uid://bembqtofpci71" path="res://scripts/sliderControl.gd" id="1_1xn15"]
 [ext_resource type="Texture2D" uid="uid://cusu40lyholw" path="res://assets/images/slider/grabber.png" id="1_npwsi"]
 [ext_resource type="Texture2D" uid="uid://bq8m50rcfyjr6" path="res://assets/images/slider/Slider_empty.png" id="2_mittw"]
 [ext_resource type="Texture2D" uid="uid://bgwb6nn414sj" path="res://assets/images/slider/Slider_full.png" id="3_s46iy"]
-
-[sub_resource type="GDScript" id="GDScript_1bw8s"]
-resource_name = "sliderControl"
-script/source = "extends AnimatableBody2D
-
-@onready var slider_collider: CollisionShape2D = get_child(1)
-
-@export var fills_up: bool = false
-
-func _ready():
-	slider_collider.fills_up = fills_up
-"
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_s46iy"]
 texture = ExtResource("2_mittw")
@@ -32,7 +21,7 @@ texture_margin_left = 186.0
 texture_margin_top = 7.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bl13t"]
-size = Vector2(12, 7)
+size = Vector2(10, 5)
 
 [sub_resource type="GDScript" id="GDScript_iyx0m"]
 resource_name = "obstacleButtonCollider"
@@ -63,7 +52,7 @@ func _on_slider_value_changed(value):
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1bw8s"]
-size = Vector2(185, 14)
+size = Vector2(182, 14)
 
 [sub_resource type="GDScript" id="GDScript_uechv"]
 resource_name = "grabberControl"
@@ -96,7 +85,7 @@ size = Vector2(17, 9)
 
 [node name="collidableSlider" type="AnimatableBody2D"]
 collision_layer = 8
-script = SubResource("GDScript_1bw8s")
+script = ExtResource("1_1xn15")
 
 [node name="uiControl" type="Control" parent="."]
 layout_mode = 3
@@ -123,14 +112,14 @@ step = 0.01
 metadata/_edit_use_anchors_ = true
 
 [node name="sliderCollider" type="CollisionShape2D" parent="." groups=["StickyCollider"]]
-position = Vector2(-87, 0.5)
+position = Vector2(-86, 0.5)
 shape = SubResource("RectangleShape2D_bl13t")
 script = SubResource("GDScript_iyx0m")
 
 [node name="sliderArea" type="Area2D" parent="sliderCollider"]
 
 [node name="sliderShape" type="CollisionShape2D" parent="sliderCollider/sliderArea"]
-position = Vector2(86.5, 0)
+position = Vector2(86, 0)
 shape = SubResource("RectangleShape2D_1bw8s")
 disabled = true
 
@@ -147,5 +136,8 @@ script = SubResource("GDScript_uechv")
 position = Vector2(-72.5, 0.5)
 shape = SubResource("RectangleShape2D_uechv")
 
+[node name="Sprite2D" type="Sprite2D" parent="grabberBody"]
+
+[connection signal="value_changed" from="uiControl/hSlider" to="." method="_on_slider_value_changed"]
 [connection signal="value_changed" from="uiControl/hSlider" to="sliderCollider" method="_on_slider_value_changed"]
 [connection signal="value_changed" from="uiControl/hSlider" to="grabberBody" method="_on_slider_value_changed"]

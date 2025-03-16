@@ -110,6 +110,7 @@ offset_left = 0.0
 offset_top = 0.0
 offset_right = 482.0
 offset_bottom = 37.0
+script = null
 
 [node name="ground" parent="." instance=ExtResource("3_iul6a")]
 position = Vector2(510, 849)
