@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://b60w3flc2qkh7"]
+
+[ext_resource type="Script" uid="uid://bja8vqmgokv8u" path="res://scripts/rich_text_label.gd" id="1_bu7q1"]
+
+[node name="fadeInText" type="RichTextLabel"]
+offset_left = 402.0
+offset_top = 499.0
+offset_right = 884.0
+offset_bottom = 536.0
+fit_content = true
+scroll_active = false
+script = ExtResource("1_bu7q1")
+metadata/_edit_use_anchors_ = true
