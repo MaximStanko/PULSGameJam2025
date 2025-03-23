@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://ctbp06ongkm4c"]
 
 [ext_resource type="Texture2D" uid="uid://dnpsu18evi5ef" path="res://assets/images/background/background01.png" id="1_ipiqq"]
-[ext_resource type="PackedScene" uid="uid://b60w3flc2qkh7" path="res://assets/prefabs/fadeInText.tscn" id="2_tetpr"]
+[ext_resource type="PackedScene" uid="uid://b60w3flc2qkh7" path="res://assets/prefabs/narrator.tscn" id="2_tetpr"]
 [ext_resource type="PackedScene" uid="uid://cfahc5105flwf" path="res://assets/prefabs/ground.tscn" id="3_0elff"]
 [ext_resource type="PackedScene" uid="uid://b8aby1eqxx225" path="res://assets/prefabs/shakeCamera.tscn" id="4_06i2s"]
 [ext_resource type="Texture2D" uid="uid://clq1l3m3u13gj" path="res://assets/images/button/Wide_button_full.png" id="4_y3tlu"]

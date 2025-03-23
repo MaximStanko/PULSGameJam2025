@@ -31,7 +31,12 @@ script/source = "extends CollisionShape2D
 @onready var slider_length: float = get_child(0).get_child(0).shape.extents.x
 @onready var grabber_length: float = self.shape.extents.x
 
-@export var fills_up: bool = true
+var fills_up: bool
+
+func set_fills_up(value: bool):
+	fills_up = value
+	if not fills_up:
+		self.set_deferred(\"disabled\", true)
 
 func calculate_grabber_x_offset(slider_value):
 	return (slider_length - grabber_length) * slider_value * 2

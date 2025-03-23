@@ -21,17 +21,23 @@ texture_margin_left = 147.0
 texture_margin_top = 7.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bl13t"]
-size = Vector2(7, 7)
+size = Vector2(0, 7)
 
 [sub_resource type="GDScript" id="GDScript_iyx0m"]
 resource_name = "obstacleButtonCollider"
 script/source = "extends CollisionShape2D
 
 @onready var start_position: Vector2 = self.position
-@onready var slider_length: float = get_child(0).get_child(0).shape.extents.x
+@onready var slider_length: float = $sliderArea/sliderShape.shape.extents.x
 @onready var grabber_length: float = self.shape.extents.x
+@onready var grabber_body: RigidBody2D = $\"../grabberBody\"
 
-@export var fills_up: bool = true
+var fills_up: bool
+
+func set_fills_up(value: bool):
+	fills_up = value
+	if not fills_up:
+		self.set_deferred(\"disabled\", true)
 
 func calculate_grabber_x_offset(slider_value):
 	return (slider_length - grabber_length) * slider_value * 2
@@ -43,16 +49,14 @@ func calculate_grabber_position(slider_value):
 func _on_slider_value_changed(value):
 	if fills_up:
 		var new_rectangle = RectangleShape2D.new()
-		new_rectangle.size = Vector2(calculate_grabber_x_offset(value)
-				+ grabber_length, self.shape.extents.y)
+		new_rectangle.size = Vector2(max(1, grabber_body.position.x - grabber_body.start_position.x  - 5), #calculate_grabber_x_offset(value) + grabber_length, 
+						self.shape.size.y)
 		self.set_shape(new_rectangle)
 		self.position = Vector2(start_position.x + new_rectangle.size.x / 2, start_position.y)
-	else:
-		self.position = calculate_grabber_position(value)
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1bw8s"]
-size = Vector2(145.5, 14)
+size = Vector2(146, 14)
 
 [sub_resource type="GDScript" id="GDScript_uechv"]
 resource_name = "grabberControl"
@@ -77,7 +81,10 @@ func _on_slider_value_changed(value: float):
 
 func _physics_process(delta: float):
 	var new_velocity = calculate_x_velocity(calculate_grabber_x_position())
-	set_axis_velocity(Vector2(new_velocity, 0))
+	set_axis_velocity(Vector2(0, -new_velocity))
+
+func get_start_pos():
+	return start_position
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uechv"]
@@ -90,18 +97,14 @@ script = ExtResource("1_fnq2d")
 [node name="uiControl" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_left = -76.0
-offset_top = -8.0
-offset_right = -76.0
-offset_bottom = -8.0
 metadata/_edit_use_anchors_ = true
 
 [node name="vSlider" type="HSlider" parent="uiControl"]
 layout_mode = 0
-offset_left = -18.0
-offset_top = 1.0
-offset_right = 129.0
-offset_bottom = 18.0
+offset_left = -94.0
+offset_top = -8.0
+offset_right = 53.0
+offset_bottom = 9.0
 theme_override_icons/grabber = ExtResource("2_b2m1p")
 theme_override_icons/grabber_highlight = ExtResource("2_b2m1p")
 theme_override_styles/slider = SubResource("StyleBoxTexture_s46iy")
@@ -112,28 +115,30 @@ step = 0.01
 metadata/_edit_use_anchors_ = true
 
 [node name="sliderCollider" type="CollisionShape2D" parent="." groups=["StickyCollider"]]
-position = Vector2(-89.5, 1.5)
+position = Vector2(-94, 0.5)
 shape = SubResource("RectangleShape2D_bl13t")
 script = SubResource("GDScript_iyx0m")
 
 [node name="sliderArea" type="Area2D" parent="sliderCollider"]
+collision_layer = 0
+collision_mask = 0
 
 [node name="sliderShape" type="CollisionShape2D" parent="sliderCollider/sliderArea"]
-position = Vector2(68.75, 0.5)
+position = Vector2(73, 0.5)
 shape = SubResource("RectangleShape2D_1bw8s")
 disabled = true
 
 [node name="grabberBody" type="RigidBody2D" parent="."]
-position = Vector2(-13, 0)
 collision_layer = 4
 collision_mask = 0
 mass = 1000.0
 gravity_scale = 0.0
 lock_rotation = true
 script = SubResource("GDScript_uechv")
+max_velocity = 1000.0
 
 [node name="grabberShape" type="CollisionShape2D" parent="grabberBody"]
-position = Vector2(-76.5, 1.5)
+position = Vector2(-89.5, 0.5)
 shape = SubResource("RectangleShape2D_uechv")
 
 [connection signal="value_changed" from="uiControl/vSlider" to="." method="_on_slider_value_changed"]

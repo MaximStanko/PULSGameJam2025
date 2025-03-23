@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://d4dsh5554b0c0" path="res://assets/images/button/customButtons/button_high_pitch_hover.png" id="8_cfbuf"]
 [ext_resource type="PackedScene" uid="uid://dtivrhy6jydyd" path="res://assets/prefabs/shortVerticalSliderObstacle.tscn" id="8_g4fpf"]
 [ext_resource type="PackedScene" uid="uid://cdsloxmlt0uf2" path="res://assets/prefabs/player.tscn" id="8_x6a5g"]
-[ext_resource type="PackedScene" uid="uid://b60w3flc2qkh7" path="res://assets/prefabs/fadeInText.tscn" id="9_85atd"]
+[ext_resource type="PackedScene" uid="uid://b60w3flc2qkh7" path="res://assets/prefabs/narrator.tscn" id="9_85atd"]
 [ext_resource type="Texture2D" uid="uid://21yww75aavqi" path="res://assets/images/button/customButtons/button_medium_pitch_full.png" id="9_hbm1h"]
 [ext_resource type="Texture2D" uid="uid://dpofcj743m6v5" path="res://assets/images/button/customButtons/button_medium_pitch_press.png" id="10_2rvk6"]
 [ext_resource type="PackedScene" uid="uid://fe4bix6mk1gg" path="res://assets/prefabs/speakerObstacle.tscn" id="10_o71d0"]
@@ -32,9 +32,6 @@ offset_top = -39.0
 offset_right = 519.0
 offset_bottom = 309.0
 texture = ExtResource("1_ueqk1")
-
-[node name="player" parent="." instance=ExtResource("8_x6a5g")]
-position = Vector2(49, 221)
 
 [node name="fadeInText" parent="." instance=ExtResource("9_85atd")]
 
@@ -75,7 +72,7 @@ offset_bottom = 39.0
 scenePath = "res://scenes/endOfDemo.tscn"
 
 [node name="speaker" parent="." node_paths=PackedStringArray("settingSlider") instance=ExtResource("10_o71d0")]
-position = Vector2(89, 179)
+position = Vector2(71, 179)
 settingSlider = NodePath("../collidableSlider")
 
 [node name="collidableSlider" parent="." instance=ExtResource("8_g4fpf")]
@@ -84,19 +81,21 @@ rotation = -1.5708
 fills_up = true
 
 [node name="button" parent="." instance=ExtResource("5_inh44")]
-position = Vector2(114, 179)
+position = Vector2(94, 179)
+rotation = 0.124881
 normalTexture = ExtResource("6_1haid")
 pressedTexture = ExtResource("7_gtp7a")
 hoverTexture = ExtResource("8_cfbuf")
 
 [node name="button2" parent="." instance=ExtResource("5_inh44")]
-position = Vector2(199, 153)
+position = Vector2(174, 193)
 normalTexture = ExtResource("9_hbm1h")
 pressedTexture = ExtResource("10_2rvk6")
 hoverTexture = ExtResource("11_s5sfk")
 
 [node name="button3" parent="." instance=ExtResource("5_inh44")]
-position = Vector2(279, 179)
+position = Vector2(278, 186)
+rotation = -0.182615
 normalTexture = ExtResource("12_rbyyb")
 pressedTexture = ExtResource("13_as5pg")
 hoverTexture = ExtResource("14_0cs23")
@@ -107,6 +106,16 @@ normalTexture = ExtResource("19_as5pg")
 pressedTexture = ExtResource("20_0cs23")
 hoverTexture = ExtResource("21_pyaxs")
 
-[node name="Note" type="Sprite2D" parent="."]
-position = Vector2(360, 80)
+[node name="note" type="StaticBody2D" parent="."]
+position = Vector2(363, 67)
+collision_layer = 8
+
+[node name="Note" type="Sprite2D" parent="note"]
 texture = ExtResource("23_0cs23")
+offset = Vector2(0.5, 0.5)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="note"]
+polygon = PackedVector2Array(-14, 8, -10, 5, -6, 5, -6, -11, 14, -14, 14, 10, 11, 13, 7, 13, 3, 10, 3, 7, 7, 4, 11, 4, 11, -5, -3, -3, -3, 11, -7, 14, -10, 14, -14, 11)
+
+[node name="player" parent="." instance=ExtResource("8_x6a5g")]
+position = Vector2(49, 221)

@@ -1,0 +1,121 @@
+[gd_scene load_steps=8 format=3 uid="uid://c6p4sekc3ik2k"]
+
+[ext_resource type="Texture2D" uid="uid://clq1l3m3u13gj" path="res://assets/images/button/Wide_button_full.png" id="1_etubn"]
+[ext_resource type="Texture2D" uid="uid://bujfyydfb43ut" path="res://assets/images/button/Wide_button_hover.png" id="2_pejx7"]
+[ext_resource type="Texture2D" uid="uid://b1ormtyuu2iai" path="res://assets/images/button/Wide_button_press.png" id="3_xbhg4"]
+
+[sub_resource type="GDScript" id="GDScript_exdpr"]
+resource_name = "buttonControl"
+script/source = "extends StaticBody2D
+
+signal was_pressed
+
+@onready var button: TextureButton = $Control/TextureButton
+@onready var buttonCollider: CollisionShape2D = $buttonCollider
+@onready var standingCollider: CollisionShape2D = $standingArea/standingCollider
+
+@onready var buttonSize: Vector2 = normalTexture.get_size()
+
+@export var togglable: bool = false
+@export var normalTexture: Texture2D
+@export var pressedTexture: Texture2D
+@export var hoverTexture: Texture2D
+
+func _ready():
+	button.toggle_mode = togglable
+	
+	button.set_texture_normal(normalTexture)
+	button.set_texture_pressed(pressedTexture)
+	button.set_texture_hover(hoverTexture)
+	
+	print(button.size)
+	button.size = buttonSize
+	print(button.size, buttonSize)
+	var buttonShape = RectangleShape2D.new()
+ddddddddddd	buttonShape.size = buttonSize - Vector2(0, 1) * 2
+	buttonCollider.set_shape(buttonShape)
+	#buttonCollider.shape.extents = (buttonSize - Vector2(0, 1)) / 2
+	buttonCollider.position = buttonSize / 2 + Vector2(0, 1) * 4
+	print(buttonCollider.shape.size)
+	standingCollider.shape.extents = Vector2((buttonSize.x - 1) / 2, 2)
+	standingCollider.position = Vector2(buttonSize.x / 2, 3)
+	print(standingCollider.shape.size)
+	print()
+
+func _on_area_entered(area):
+	if area.is_in_group(\"playerFeet\"):
+		button.set_texture_normal(hoverTexture) 
+
+func _on_area_exited(area):
+	if area.is_in_group(\"playerFeet\"):
+		button.set_texture_normal(normalTexture) 
+
+func get_size():
+	return buttonCollider.shape.extents
+
+func _on_button_pressed():
+	was_pressed.emit()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bl13t"]
+size = Vector2(70, 17)
+
+[sub_resource type="GDScript" id="GDScript_iyx0m"]
+resource_name = "obstacleButtonCollider"
+script/source = "extends CollisionShape2D
+
+func set_collider_state():
+	self.disabled = get_parent().get_child(0).get_child(0).button_pressed
+
+func _on_button_down():
+	set_collider_state()
+
+func _on_button_up():
+	set_collider_state()
+
+func _on_button_pressed():
+	set_collider_state()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_etubn"]
+size = Vector2(68, 4)
+
+[node name="button" type="StaticBody2D"]
+collision_layer = 8
+script = SubResource("GDScript_exdpr")
+togglable = null
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureButton" type="TextureButton" parent="Control"]
+layout_mode = 0
+offset_top = 3.0
+offset_right = 70.0
+offset_bottom = 21.0
+action_mode = 0
+texture_normal = ExtResource("1_etubn")
+texture_pressed = ExtResource("3_xbhg4")
+texture_hover = ExtResource("2_pejx7")
+ignore_texture_size = true
+
+[node name="buttonCollider" type="CollisionShape2D" parent="."]
+position = Vector2(35, 12.5)
+shape = SubResource("RectangleShape2D_bl13t")
+script = SubResource("GDScript_iyx0m")
+
+[node name="standingArea" type="Area2D" parent="." groups=["buttonPressureArea"]]
+
+[node name="standingCollider" type="CollisionShape2D" parent="standingArea"]
+position = Vector2(35, 3)
+shape = SubResource("RectangleShape2D_etubn")
+
+[connection signal="button_down" from="Control/TextureButton" to="buttonCollider" method="_on_button_down"]
+[connection signal="button_up" from="Control/TextureButton" to="buttonCollider" method="_on_button_up"]
+[connection signal="pressed" from="Control/TextureButton" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Control/TextureButton" to="buttonCollider" method="_on_button_pressed"]
+[connection signal="area_entered" from="standingArea" to="." method="_on_area_entered"]
+[connection signal="area_exited" from="standingArea" to="." method="_on_area_exited"]

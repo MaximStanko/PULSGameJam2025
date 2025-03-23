@@ -21,13 +21,10 @@ settingSlider = NodePath("../collidableSlider2")
 [node name="collidableSlider2" parent="." instance=ExtResource("3_uxr5t")]
 position = Vector2(160, 165)
 rotation = -1.5708
-fills_up = true
 
 [node name="collidableSlider3" parent="." instance=ExtResource("1_cy281")]
 position = Vector2(369, 127)
-fills_up = true
 
 [node name="collidableSlider4" parent="." instance=ExtResource("5_jorxo")]
 position = Vector2(186, 158)
 rotation = -1.5708
-fills_up = true

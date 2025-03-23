@@ -6,4 +6,4 @@ func _ready():
 	pressed.connect(Callable(self, "change_scene"))
 
 func change_scene():
-	get_tree().change_scene_to_file(scenePath)
+	Global.goto_scene(scenePath)

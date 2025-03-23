@@ -10,8 +10,6 @@ script/source = "extends CharacterBody2D
 @export var JUMP_VELOCITY = -250.0
 @export var GRAVITY_MULTIPLIER = 1.0
 
-@onready var root = self.get_parent()
-
 @onready var animated_sprite = $AnimatedSprite2D
 
 func _physics_process(delta: float) -> void:
@@ -171,13 +169,15 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iyx0m"]
-size = Vector2(12, 18)
+size = Vector2(12, 17)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8cprv"]
 size = Vector2(10, 7)
 
 [node name="player" type="CharacterBody2D" groups=["player"]]
-collision_mask = 15
+collision_mask = 255
+floor_stop_on_slope = false
+floor_max_angle = 0.610865
 script = SubResource("GDScript_bcxd0")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -188,11 +188,12 @@ autoplay = "idle"
 frame_progress = 0.810894
 
 [node name="playerCollider" type="CollisionShape2D" parent="."]
-position = Vector2(0, 2)
+position = Vector2(0, 2.5)
 shape = SubResource("RectangleShape2D_iyx0m")
 
-[node name="Area2D" type="Area2D" parent="." groups=["playerFeet"]]
+[node name="feetArea" type="Area2D" parent="." groups=["playerFeet"]]
+collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="feetCollider" type="CollisionShape2D" parent="feetArea"]
 position = Vector2(0, 9)
 shape = SubResource("RectangleShape2D_8cprv")

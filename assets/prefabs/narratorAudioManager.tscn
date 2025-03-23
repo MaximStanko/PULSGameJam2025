@@ -1,0 +1,60 @@
+[gd_scene load_steps=2 format=3 uid="uid://1rxo1j0brjvi"]
+
+[sub_resource type="GDScript" id="GDScript_sllm8"]
+resource_name = "narratorAudioControl"
+script/source = "'''Taken from https://github.com/mattmarch/ACVoicebox'''
+extends AudioStreamPlayer2D
+
+const PITCH_MULTIPLIER_RANGE := 0.3
+const INFLECTION_SHIFT := 0.4
+
+@export var base_pitch := 3.5 # (float, 2.5, 4.5)
+
+const sounds = {
+	'a': preload('res://assets/sounds/narratorSounds/a.wav'),
+	'b': preload('res://assets/sounds/narratorSounds/b.wav'),
+	'c': preload('res://assets/sounds/narratorSounds/c.wav'),
+	'd': preload('res://assets/sounds/narratorSounds/d.wav'),
+	'e': preload('res://assets/sounds/narratorSounds/e.wav'),
+	'f': preload('res://assets/sounds/narratorSounds/f.wav'),
+	'g': preload('res://assets/sounds/narratorSounds/g.wav'),
+	'h': preload('res://assets/sounds/narratorSounds/h.wav'),
+	'i': preload('res://assets/sounds/narratorSounds/i.wav'),
+	'j': preload('res://assets/sounds/narratorSounds/j.wav'),
+	'k': preload('res://assets/sounds/narratorSounds/k.wav'),
+	'l': preload('res://assets/sounds/narratorSounds/l.wav'),
+	'm': preload('res://assets/sounds/narratorSounds/m.wav'),
+	'n': preload('res://assets/sounds/narratorSounds/n.wav'),
+	'o': preload('res://assets/sounds/narratorSounds/o.wav'),
+	'p': preload('res://assets/sounds/narratorSounds/p.wav'),
+	'q': preload('res://assets/sounds/narratorSounds/q.wav'),
+	'r': preload('res://assets/sounds/narratorSounds/r.wav'),
+	's': preload('res://assets/sounds/narratorSounds/s.wav'),
+	't': preload('res://assets/sounds/narratorSounds/t.wav'),
+	'u': preload('res://assets/sounds/narratorSounds/u.wav'),
+	'v': preload('res://assets/sounds/narratorSounds/v.wav'),
+	'w': preload('res://assets/sounds/narratorSounds/w.wav'),
+	'x': preload('res://assets/sounds/narratorSounds/x.wav'),
+	'y': preload('res://assets/sounds/narratorSounds/y.wav'),
+	'z': preload('res://assets/sounds/narratorSounds/z.wav'),
+	'th': preload('res://assets/sounds/narratorSounds/th.wav'),
+	'sh': preload('res://assets/sounds/narratorSounds/sh.wav'),
+	' ': preload('res://assets/sounds/narratorSounds/blank.wav'),
+	'.': preload('res://assets/sounds/narratorSounds/longblank.wav')
+}
+
+func play_sound(char: String, inflected := false):
+	if char == '?':
+		play_sound('a', true)
+	var lowered_char = char.to_lower()
+	if lowered_char not in sounds.keys():
+		return
+	var sound: AudioStreamWAV = sounds[lowered_char]
+	# Add some randomness to pitch plus optional inflection for end word in questions
+	pitch_scale = base_pitch + (PITCH_MULTIPLIER_RANGE * randf()) 
+	stream = sound
+	play()
+"
+
+[node name="narratorAudio" type="AudioStreamPlayer2D"]
+script = SubResource("GDScript_sllm8")

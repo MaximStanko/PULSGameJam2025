@@ -10,7 +10,7 @@ signal value_changed(value: float)
 @export var fills_up: bool = false
 
 func _ready():
-	slider_collider.fills_up = fills_up
+	slider_collider.set_fills_up(fills_up)
 	value_changed.emit(self.get_value())
 	if not fills_up:
 		slider_ui.add_theme_stylebox_override("grabber_area", slider_unfilled)

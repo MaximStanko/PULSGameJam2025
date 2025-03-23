@@ -1,21 +1,20 @@
 [gd_scene load_steps=4 format=3 uid="uid://dgkp7vneyh36j"]
 
-[ext_resource type="PackedScene" uid="uid://b60w3flc2qkh7" path="res://assets/prefabs/fadeInText.tscn" id="1_5gr0p"]
+[ext_resource type="PackedScene" uid="uid://b60w3flc2qkh7" path="res://assets/prefabs/narrator.tscn" id="1_5gr0p"]
 [ext_resource type="PackedScene" uid="uid://b8aby1eqxx225" path="res://assets/prefabs/shakeCamera.tscn" id="1_wa7j1"]
 
 [sub_resource type="GDScript" id="GDScript_wa7j1"]
 resource_name = "endOfDemoControl"
 script/source = "extends Node2D
 
-@onready var camera = get_child(0)
-@onready var narratorBox = get_child(1).get_child(1)
+@onready var camera = $camera
 
 func _ready():
-	narratorBox.fade_text(\"Huh, what happened now?\")
+	Narrator.narrate(\"Huh, what happened now?\")
 	await get_tree().create_timer(3).timeout
-	narratorBox.fade_text(\"I guess the game isn't finished yet.   \\nThat's really sad :(\")
+	Narrator.narrate(\"I guess the game isn't finished yet.   \\nThat's really sad :(\")
 	await get_tree().create_timer(5).timeout
-	narratorBox.fade_text(\"But thanks for playing the demo tho-                \\nhuh what's happening?\")
+	Narrator.narrate(\"But thanks for playing the demo tho-                \\nhuh what's happening?\")
 	await get_tree().create_timer(2.0).timeout
 	camera.add_trauma(0.7)
 	await get_tree().create_timer(1.5).timeout

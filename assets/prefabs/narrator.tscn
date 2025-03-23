@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3 uid="uid://b60w3flc2qkh7"]
+
+[ext_resource type="FontFile" uid="uid://cq40vgh857a8f" path="res://assets/fonts/PublicPixel.ttf" id="1_bu7q1"]
+
+[sub_resource type="GDScript" id="GDScript_l3kmb"]
+resource_name = "fadeInTextControl"
+script/source = "extends RichTextLabel
+
+signal character_printed(char: String)
+
+var current_string: String = \"\"
+var current_length: int = 0
+var current_time: float = 0
+var max_time: float = 0
+var prev_length: int = 0
+
+func narrate(string: String, cascading_delay := 0.05):
+	clear_narration()
+	current_string = string
+	current_length = string.length()
+	max_time = cascading_delay * current_length
+	return Global.delay(max_time)
+	
+func _process(delta):
+	if text.length() < current_string.length() and max_time > 0:
+		current_time += delta
+		text = current_string.substr(0, lerp(0, current_string.length(), current_time / max_time))
+		if text.length() > prev_length:
+			character_printed.emit(text[-1])
+		prev_length = text.length()
+
+func clear_narration():
+	text = \"\"
+	current_time = 0
+	prev_length = 0
+	current_length = 0
+	max_time = 0
+
+func get_current_string():
+	return current_string
+"
+
+[node name="narrator" type="RichTextLabel"]
+offset_right = 330.0
+offset_bottom = 37.0
+theme_override_fonts/normal_font = ExtResource("1_bu7q1")
+theme_override_font_sizes/normal_font_size = 8
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+script = SubResource("GDScript_l3kmb")
+metadata/_edit_use_anchors_ = true
