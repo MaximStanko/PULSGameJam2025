@@ -1,7 +1,6 @@
-[gd_scene load_steps=15 format=3 uid="uid://bq3wg2a2v4mrg"]
+[gd_scene load_steps=14 format=3 uid="uid://bq3wg2a2v4mrg"]
 
 [ext_resource type="Texture2D" uid="uid://bpex40q6d756g" path="res://assets/images/background/backgroundSound.png" id="1_7r1ap"]
-[ext_resource type="PackedScene" uid="uid://b60w3flc2qkh7" path="res://assets/prefabs/narrator.tscn" id="2_tetpr"]
 [ext_resource type="Texture2D" uid="uid://jd3fapmemc1t" path="res://assets/images/text/master-text.png" id="2_y3tlu"]
 [ext_resource type="PackedScene" uid="uid://cfahc5105flwf" path="res://assets/prefabs/ground.tscn" id="3_0elff"]
 [ext_resource type="Texture2D" uid="uid://bq0xjxe1mpg50" path="res://assets/images/text/music-text.png" id="3_ml1oj"]
@@ -22,7 +21,7 @@ func _ready():
 	Narrator.narrate(\"Seems like you landed in the sound settings...\", func (): return true, 2.0)
 
 func _on_master_volume_changed(value: float) -> void:
-	Narrator.set_volume(1.0 - value)
+	Narrator.set_volume(value)
 "
 
 [node name="root" type="Node2D"]
@@ -77,23 +76,26 @@ texture = ExtResource("6_trii4")
 
 [node name="collidableSlider" parent="." instance=ExtResource("7_7xc2s")]
 position = Vector2(291, 164)
+start_value = 1.0
 
 [node name="collidableSlider2" parent="." instance=ExtResource("7_7xc2s")]
 position = Vector2(291, 193)
+start_value = 1.0
 
 [node name="collidableSlider3" parent="." instance=ExtResource("7_7xc2s")]
 position = Vector2(291, 222)
+start_value = 1.0
 
 [node name="collidableSlider4" parent="." instance=ExtResource("7_7xc2s")]
 position = Vector2(291, 135)
+start_value = 1.0
 
 [node name="collidableSlider5" parent="." instance=ExtResource("7_7xc2s")]
 position = Vector2(291, 106)
+start_value = 1.0
 
 [node name="player" parent="." instance=ExtResource("8_trii4")]
 position = Vector2(49, 223)
-
-[node name="fadeInText" parent="." instance=ExtResource("2_tetpr")]
 
 [node name="camera" parent="." instance=ExtResource("4_06i2s")]
 position = Vector2(240, 135)

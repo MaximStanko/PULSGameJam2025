@@ -8,9 +8,11 @@ signal value_changed(value: float)
 @onready var slider_filled: StyleBox = slider_ui.get_theme_stylebox("grabber_area")
 
 @export var fills_up: bool = false
+@export var start_value: float = 0.0
 
 func _ready():
 	slider_collider.set_fills_up(fills_up)
+	slider_ui.value = start_value
 	value_changed.emit(self.get_value())
 	if not fills_up:
 		slider_ui.add_theme_stylebox_override("grabber_area", slider_unfilled)
